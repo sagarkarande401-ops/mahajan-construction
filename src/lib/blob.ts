@@ -13,11 +13,17 @@ export async function uploadMedia(file: File, folder: "projects" | "services" | 
   return blob.url;
 }
 
-export async function deleteMedia(url: string) {
-  if (!process.env.BLOB_READ_WRITE_TOKEN) return;
-  try {
-    await del(url);
-  } catch (err) {
-    console.error("Failed to delete blob:", err);
+export async function uploadMedia(file: File, folder: "projects" | "services" | "gallery") {
+
+  console.log("TOKEN:", process.env.BLOB_READ_WRITE_TOKEN);
+
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    throw new Error(
+      "Media upload isn't configured yet. Enable Vercel Blob storage for this project and add BLOB_READ_WRITE_TOKEN — see README."
+    );
   }
+
+  const filename = `${folder}/${Date.now()}-${file.name.replace(/\s+/g, "-")}`;
+  const blob = await put(filename, file, { access: "public" });
+  return blob.url;
 }
