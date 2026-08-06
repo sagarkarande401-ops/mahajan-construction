@@ -1,19 +1,18 @@
 import { put, del } from "@vercel/blob";
 
 /** Uploads a File (from an admin form) to Vercel Blob storage and returns its
- * public URL. Requires BLOB_READ_WRITE_TOKEN — see README "Media Uploads".
+ * public URL.
  */
 export async function uploadMedia(
   file: File,
   folder: "projects" | "services" | "gallery"
 ) {
-  console.log("TOKEN:", process.env.BLOB_READ_WRITE_TOKEN);
 
   if (!process.env.BLOB_READ_WRITE_TOKEN) {
-    throw new Error(
-      "Media upload isn't configured yet. Enable Vercel Blob storage for this project and add BLOB_READ_WRITE_TOKEN — see README."
-    );
-  }
+  throw new Error(
+    `TOKEN VALUE = ${process.env.BLOB_READ_WRITE_TOKEN}`
+  );
+}
 
   const filename = `${folder}/${Date.now()}-${file.name.replace(/\s+/g, "-")}`;
 
