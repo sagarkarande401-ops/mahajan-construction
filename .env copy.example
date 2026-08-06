@@ -1,0 +1,36 @@
+# Copy this file to .env.local for local development.
+# On Vercel: Project Settings → Environment Variables → add each one there instead.
+
+# --- Database (PostgreSQL via Prisma) ---
+# Easiest free option: https://neon.tech or https://supabase.com (Postgres only,
+# used here just as a free Postgres host) or Vercel Postgres from your Vercel dashboard.
+# Format: postgresql://user:password@host:port/dbname?sslmode=require
+DATABASE_URL=
+
+# --- Admin authentication ---
+# Any long random string — used to sign admin login sessions.
+# Generate one with: openssl rand -base64 32
+ADMIN_SESSION_SECRET=
+
+# Used only by `npm run db:seed` to create your first admin login.
+# Change the password immediately after first login.
+SEED_ADMIN_EMAIL=saismahajan5555@gmail.com
+SEED_ADMIN_PASSWORD=ChangeMe123!
+
+# --- Resend (enquiry emails) ---
+# Get from https://resend.com after free signup
+RESEND_API_KEY=
+RESEND_FROM_EMAIL="Mahajan Construction <onboarding@resend.dev>"
+
+# --- Vercel Blob (image/video uploads from the admin panel) ---
+# In your Vercel project: Storage tab → Create Database → Blob → copy the token,
+# or it's auto-added when you enable Blob storage for the project.
+BLOB_READ_WRITE_TOKEN=
+
+# --- WhatsApp Cloud API (optional — see README before attempting) ---
+WHATSAPP_TOKEN=
+WHATSAPP_PHONE_NUMBER_ID=
+WHATSAPP_OWNER_NUMBER=917028187271
+
+# --- Google Analytics (optional) ---
+NEXT_PUBLIC_GA_ID=

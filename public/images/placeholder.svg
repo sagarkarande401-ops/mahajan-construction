@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+  <rect width="800" height="1000" fill="#C9C6BE"/>
+  <g stroke="#8C8A84" stroke-width="1" opacity="0.5">
+    <line x1="0" y1="0" x2="800" y2="1000"/>
+    <line x1="800" y1="0" x2="0" y2="1000"/>
+  </g>
+  <text x="400" y="500" font-family="monospace" font-size="14" fill="#5A5850" text-anchor="middle" letter-spacing="2">
+    PHOTO PENDING UPLOAD
+  </text>
+</svg>
