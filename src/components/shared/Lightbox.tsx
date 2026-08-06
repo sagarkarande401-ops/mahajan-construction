@@ -5,16 +5,21 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
+import { ReactNode } from "react";
+
 interface LightboxProps {
   images: string[];
-  children: (openAt: (index: number) => void) => React.ReactNode;
+  children: ReactNode;
 }
 
 // Reusable lightbox: pass a render-prop `children` that receives `openAt(index)`
 // so any gallery grid can trigger it without duplicating state logic.
 export function Lightbox({ images, children }: LightboxProps) {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+ const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
+const openAt = (index: number) => {
+  setActiveIndex(index);
+};
   const close = useCallback(() => setActiveIndex(null), []);
   const next = useCallback(() => setActiveIndex((i) => (i === null ? null : (i + 1) % images.length)), [images.length]);
   const prev = useCallback(
@@ -39,7 +44,7 @@ export function Lightbox({ images, children }: LightboxProps) {
 
   return (
     <>
-      {children(setActiveIndex)}
+      {children}
       <AnimatePresence>
         {activeIndex !== null && (
           <motion.div
