@@ -2,11 +2,17 @@ import { prisma } from "@/lib/prisma";
 import { GalleryMediaType } from "@prisma/client";
 
 export async function getTestimonials() {
-  return prisma.testimonial.findMany({ where: { published: true }, orderBy: { order: "asc" } });
+  return prisma.testimonial.findMany({
+    where: { published: true },
+    orderBy: { order: "asc" },
+  });
 }
 
 export async function getFaqs() {
-  return prisma.faq.findMany({ where: { published: true }, orderBy: { order: "asc" } });
+  return prisma.faq.findMany({
+    where: { published: true },
+    orderBy: { order: "asc" },
+  });
 }
 
 export async function getGalleryItems(type?: GalleryMediaType) {
@@ -16,17 +22,33 @@ export async function getGalleryItems(type?: GalleryMediaType) {
   });
 }
 
-/** Home/About page stats — Experience, Projects Delivered, Cities & Towns Served.
- *  "On-Time Handover Rate" has been intentionally removed per request; do not re-add it. */
+/** Home/About page stats */
 export async function getSiteStats() {
   const stats = await prisma.siteStat.findMany();
   const byKey = Object.fromEntries(stats.map((s) => [s.key, s]));
+
   return {
-    experience: byKey["experience_years"] ?? { label: "Years in Practice", value: 3, suffix: "+" },
-    projectsDelivered: byKey["projects_delivered"] ?? { label: "Projects Delivered", value: 40, suffix: "+" },
-    citiesServed: byKey["cities_served"] ?? { label: "Cities & Towns Served", value: 18, suffix: "" },
+    experience:
+      byKey["experience_years"] ?? {
+        label: "Years in Practice",
+        value: 3,
+        suffix: "+",
+      },
+    projectsDelivered:
+      byKey["projects_delivered"] ?? {
+        label: "Projects Delivered",
+        value: 40,
+        suffix: "+",
+      },
+    citiesServed:
+      byKey["cities_served"] ?? {
+        label: "Cities & Towns Served",
+        value: 18,
+        suffix: "",
+      },
   };
 }
+
 export function getBlogPosts() {
   return [
     {
@@ -36,6 +58,10 @@ export function getBlogPosts() {
       coverImage: "/images/blog/blog-1.jpg",
       category: "Planning",
       readTime: "5 min read",
+      date: "2026-01-15",
+      author: "Mahajan Construction",
+      content:
+        "Planning your dream home starts with understanding your budget, selecting the right plot, and working with experienced architects and engineers. Proper planning reduces delays and unexpected costs.",
     },
     {
       slug: "construction-cost",
@@ -44,6 +70,10 @@ export function getBlogPosts() {
       coverImage: "/images/blog/blog-2.jpg",
       category: "Budget",
       readTime: "6 min read",
+      date: "2026-02-10",
+      author: "Mahajan Construction",
+      content:
+        "Construction cost depends on location, materials, labour, and design complexity. Preparing a detailed estimate before starting the project helps avoid budget overruns.",
     },
     {
       slug: "interior-design",
@@ -52,6 +82,14 @@ export function getBlogPosts() {
       coverImage: "/images/blog/blog-3.jpg",
       category: "Interior",
       readTime: "4 min read",
+      date: "2026-03-05",
+      author: "Mahajan Construction",
+      content:
+        "A premium interior doesn't always require a huge budget. Good lighting, quality materials, smart storage, and balanced colours can completely transform your home.",
     },
   ];
+}
+
+export function getBlogPostBySlug(slug: string) {
+  return getBlogPosts().find((post) => post.slug === slug);
 }
