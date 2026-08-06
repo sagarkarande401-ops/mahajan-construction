@@ -14,7 +14,7 @@ export function CTASection() {
             Have a plot, a brief, or just an idea?
           </h2>
           <p className="mx-auto mt-6 max-w-lg text-lg text-concrete">
-            The first consultation is free. Bring your plot, your budget range, and your questions — we'll give you an honest read before anything is signed.
+            The first consultation is free. Bring your plot, your budget range, and your questions — we&apos;ll give you an honest read before anything is signed.
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <Link

@@ -17,7 +17,7 @@ export default async function FaqPage() {
         Questions, answered plainly.
       </h1>
       <p className="mt-6 max-w-xl text-lg text-concrete">
-        Don't see your question here? Reach out directly — we respond to every enquiry personally.
+        Don&apos;t see your question here? Reach out directly — we respond to every enquiry personally.
       </p>
 
       <div className="mt-16 max-w-3xl">
