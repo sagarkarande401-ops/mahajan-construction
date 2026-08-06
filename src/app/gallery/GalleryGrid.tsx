@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Image from "next/image";
-import { Lightbox } from "@/components/shared/Lightbox";
+
 import { GalleryItem } from "@/types";
 import { cn } from "@/lib/utils";
 
@@ -34,33 +34,32 @@ export function GalleryGrid({ items }: { items: GalleryItem[] }) {
         </div>
       )}
 
-      <Lightbox images={filtered.map((f) => f.url)}>
-        {(openAt) => (
-          <div className="mt-10 columns-2 gap-4 md:columns-3 [&>*]:mb-4">
-            {filtered.map((img, i) => (
-              <button
-                key={img.id}
-                onClick={() => openAt(i)}
-                className="group relative block w-full overflow-hidden bg-concrete-light"
-                style={{ aspectRatio: i % 3 === 0 ? "3/4" : "1/1" }}
-              >
-                <Image
-                  src={img.url}
-                  alt={img.title || "Mahajan Construction project"}
-                  fill
-                  sizes="(max-width: 768px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-700 ease-luxury group-hover:scale-110"
-                />
-                {img.title && (
-                  <div className="absolute inset-0 flex items-end bg-gradient-to-t from-ink/70 via-transparent to-transparent p-4 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                    <span className="font-mono text-[10px] uppercase tracking-widest text-canvas">{img.title}</span>
-                  </div>
-                )}
-              </button>
-            ))}
-          </div>
-        )}
-      </Lightbox>
+            <div className="mt-10 columns-2 gap-4 md:columns-3 [&>*]:mb-4">
+        {filtered.map((img, i) => (
+          <button
+            key={img.id}
+            onClick={() => console.log("Open image", i)}
+            className="group relative block w-full overflow-hidden bg-concrete-light"
+            style={{ aspectRatio: i % 3 === 0 ? "3/4" : "1/1" }}
+          >
+            <Image
+              src={img.url}
+              alt={img.title || "Mahajan Construction project"}
+              fill
+              sizes="(max-width: 768px) 50vw, 33vw"
+              className="object-cover transition-transform duration-700 ease-luxury group-hover:scale-110"
+            />
+
+            {img.title && (
+              <div className="absolute inset-0 flex items-end bg-gradient-to-t from-ink/70 via-transparent to-transparent p-4 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-canvas">
+                  {img.title}
+                </span>
+              </div>
+            )}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
