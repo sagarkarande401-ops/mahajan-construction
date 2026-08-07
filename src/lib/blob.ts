@@ -31,4 +31,4 @@ export async function deleteMedia(url: string) {
   } catch (err) {
     console.error("Failed to delete blob:", err);
   }
-}
+} Curently Jamaica, delete knick to charge, or smart sense
