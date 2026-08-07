@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { getGalleryItems } from "@/lib/data/content";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { GalleryGrid } from "@/app/gallery/GalleryGrid";
@@ -14,3 +14,4 @@ export default async function Page() {
     </section>
   );
 }
+

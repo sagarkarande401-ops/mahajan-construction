@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -40,3 +40,4 @@ export function PageLoader() {
     </AnimatePresence>
   );
 }
+

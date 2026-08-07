@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Phone, Mail, MapPin, MessageCircle } from "lucide-react";
 import { siteConfig, formatCoordinates } from "@/lib/utils";
-import { EnquiryForm } from "@/components/shared/EnquiryForm";
+// import { EnquiryForm } from "@/components/shared/EnquiryForm";
 import { RevealOnScroll } from "@/components/shared/RevealOnScroll";
 
 export const metadata: Metadata = {
@@ -57,7 +57,7 @@ export default function ContactPage() {
                 );
               })}
             </div>
-            <EnquiryForm source="CONTACT_PAGE" />
+            {/* <EnquiryForm source="CONTACT_PAGE" /> */}
           </RevealOnScroll>
 
           <RevealOnScroll delay={0.1}>
@@ -84,3 +84,4 @@ export default function ContactPage() {
     </>
   );
 }
+

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { siteConfig } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -60,3 +60,4 @@ export default function PrivacyPolicyPage() {
     </section>
   );
 }
+

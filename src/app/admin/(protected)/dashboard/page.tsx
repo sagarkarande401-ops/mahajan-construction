@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { Inbox, Briefcase, Layers, Star } from "lucide-react";
 
@@ -69,3 +69,4 @@ export default async function AdminDashboardPage() {
     </div>
   );
 }
+

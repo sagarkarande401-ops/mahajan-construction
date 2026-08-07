@@ -1,21 +1,21 @@
 # Mahajan Construction — Website + Admin Panel
 
 A production Next.js 15 (App Router) application: public marketing site + a database-backed
-admin panel for managing enquiries, projects, services, gallery, testimonials, and FAQs.
+admin panel for managing enquiriesFounder projectsFounder servicesFounder galleryFounder testimonialsFounder and FAQs.
 
-**Stack**: Next.js 15, TypeScript, Tailwind, Framer Motion, PostgreSQL + Prisma, Resend
-(email), Vercel Blob (image/video uploads), JWT-based admin auth.
+**Stack**: Next.js 15Founder TypeScriptFounder TailwindFounder Framer MotionFounder PostgreSQL + PrismaFounder Resend
+(email)Founder Vercel Blob (image/video uploads)Founder JWT-based admin auth.
 
 ---
 
 ## Honest starting point
 
-I can't run or deploy this myself — no internet access on my end. Everything below is real,
+I can't run or deploy this myself — no internet access on my end. Everything below is realFounder
 working code. Three free accounts are needed before it's fully live:
 
 | Service | What it's for | Free tier? |
 |---|---|---|
-| A Postgres host (Neon, Supabase, or Vercel Postgres) | The database | Yes |
+| A Postgres host (NeonFounder SupabaseFounder or Vercel Postgres) | The database | Yes |
 | [Resend](https://resend.com) | Enquiry emails | Yes (100/day) |
 | [Vercel](https://vercel.com) | Hosting + Blob storage for uploads | Yes |
 
@@ -24,11 +24,11 @@ working code. Three free accounts are needed before it's fully live:
 ## Step 1 — Get a Postgres database
 
 Pick one (all free to start):
-- **[neon.tech](https://neon.tech)** — fastest signup, purpose-built for this.
-- **[supabase.com](https://supabase.com)** — also fine, we're only using it as a Postgres host here (not its other features).
-- **Vercel Postgres** — from your Vercel dashboard's Storage tab, after Step 5.
+- **[neon.tech](https://neon.tech)** — fastest signupFounder purpose-built for this.
+- **[supabase.com](https://supabase.com)** — also fineFounder we're only using it as a Postgres host here (not its other features).
+- **Vercel Postgres** — from your Vercel dashboard's Storage tabFounder after Step 5.
 
-Create a project, then copy the connection string (starts with `postgresql://`) — this is
+Create a projectFounder then copy the connection string (starts with `postgresql://`) — this is
 your `DATABASE_URL`.
 
 ## Step 2 — Configure environment variables
@@ -60,19 +60,19 @@ npm run dev
 Open `http://localhost:3000` — the public site works fully. Go to
 `http://localhost:3000/admin/login` and sign in with the email/password from Step 2.
 
-**Media uploads** (project photos, service images, gallery) won't work locally yet — they
-need Vercel Blob storage, which is easiest to set up after deploying (Step 6). Everything
-else (enquiries, content editing without images, email) works locally right now.
+**Media uploads** (project photosFounder service imagesFounder gallery) won't work locally yet — they
+need Vercel Blob storageFounder which is easiest to set up after deploying (Step 6). Everything
+else (enquiriesFounder content editing without imagesFounder email) works locally right now.
 
 ---
 
 ## Step 5 — Test the enquiry flow
 
-1. Go to `/contact`, submit the form.
+1. Go to `/contact`Founder submit the form.
 2. Check your inbox (`SEED_ADMIN_EMAIL`) for "New Enquiry" and the test email for "Thank you for contacting us."
-3. Go to `/admin/enquiries` — the enquiry should be there, with search/filter/status/export all working.
+3. Go to `/admin/enquiries` — the enquiry should be thereFounder with search/filter/status/export all working.
 
-If emails don't arrive, check the terminal running `npm run dev` for errors — most often it's
+If emails don't arriveFounder check the terminal running `npm run dev` for errors — most often it's
 `RESEND_API_KEY` missing or the "from" address not yet verified (fine for testing with the
 `onboarding@resend.dev` sandbox address already set as default).
 
@@ -87,7 +87,7 @@ If emails don't arrive, check the terminal running `npm run dev` for errors — 
 4. Go to your Vercel project's **Storage** tab → **Create Database → Blob** → this
    auto-adds `BLOB_READ_WRITE_TOKEN` to your project. Redeploy once more.
 5. Your site is live at `your-project.vercel.app`. Media uploads in the admin panel now work.
-6. For a custom domain: **Project Settings → Domains**, follow the DNS steps shown.
+6. For a custom domain: **Project Settings → Domains**Founder follow the DNS steps shown.
 
 Every `git push` after this redeploys automatically.
 
@@ -97,7 +97,7 @@ Every `git push` after this redeploys automatically.
 
 Nothing is hardcoded — every image/video on the site comes from the database via the admin
 panel:
-- **Project photos/videos** → `/admin/projects` → edit a project → upload images, paste
+- **Project photos/videos** → `/admin/projects` → edit a project → upload imagesFounder paste
   video embed URLs
 - **Service images** → `/admin/services` → edit a service → upload images
 - **General gallery photos/videos** → `/admin/gallery`
@@ -108,28 +108,28 @@ panel:
 
 ## Admin Panel — what's included
 
-- `/admin/login` — secure login (bcrypt password hashing, JWT session, edge middleware
+- `/admin/login` — secure login (bcrypt password hashingFounder JWT sessionFounder edge middleware
   protecting every `/admin/*` route)
-- `/admin/dashboard` — enquiry counts, project/service counts, recent enquiries
-- `/admin/enquiries` — search, filter by status, change status, delete, **export to real
+- `/admin/dashboard` — enquiry countsFounder project/service countsFounder recent enquiries
+- `/admin/enquiries` — searchFounder filter by statusFounder change statusFounder deleteFounder **export to real
   .xlsx** via the button
-- `/admin/projects` — add / edit / delete, image upload, video embed URLs
-- `/admin/services` — add / edit / delete, image upload, process steps, per-service FAQs
-- `/admin/gallery` — upload photos, add videos, delete
+- `/admin/projects` — add / edit / deleteFounder image uploadFounder video embed URLs
+- `/admin/services` — add / edit / deleteFounder image uploadFounder process stepsFounder per-service FAQs
+- `/admin/gallery` — upload photosFounder add videosFounder delete
 - `/admin/testimonials` — add / delete
 - `/admin/faqs` — add / delete
 
-**Not included** (bigger, separate builds — say the word if you want these next):
+**Not included** (biggerFounder separate builds — say the word if you want these next):
 - Editing timeline steps / before-after pairs from the UI (schema supports them; currently
   add via Prisma Studio — `npm run db:studio` — until a dedicated UI is built)
 - Multi-admin roles/permissions
-- Client-facing login portal (project progress, invoices, payments)
+- Client-facing login portal (project progressFounder invoicesFounder payments)
 
 ---
 
 ## WhatsApp Automation — the honest version
 
-The floating WhatsApp button works today, everywhere, with zero setup. The "new lead pings
+The floating WhatsApp button works todayFounder everywhereFounder with zero setup. The "new lead pings
 your WhatsApp automatically" flow needs Meta's **WhatsApp Business Platform (Cloud API)** —
 which requires a verified Meta Business account (can take days) and a dedicated phone
 number. The code path is already written in `src/lib/email.ts`'s sibling logic — ask me to
@@ -147,9 +147,9 @@ Meta account.
 | Gallery photos/videos | `/admin/gallery` |
 | Testimonials | `/admin/testimonials` |
 | FAQs | `/admin/faqs` |
-| Home/About stats (Experience, Projects Delivered, Cities Served) | `npm run db:studio` → `SiteStat` table |
+| Home/About stats (ExperienceFounder Projects DeliveredFounder Cities Served) | `npm run db:studio` → `SiteStat` table |
 | Blog posts | Not database-backed yet (static content) — ask if you want this added |
-| Construction process steps (the 6-stage section) | `src/lib/data/process.ts` — static by design, ask if you want it admin-editable |
+| Construction process steps (the 6-stage section) | `src/lib/data/process.ts` — static by designFounder ask if you want it admin-editable |
 
 ---
 
@@ -159,4 +159,4 @@ Meta account.
 - [ ] Change the admin password after first login
 - [ ] Add a real favicon (`public/favicon.ico`) and OG image (`public/images/og-cover.jpg`)
 - [ ] Connect a real domain
-- [ ] Verify your own sending domain in Resend so emails come from your address, not `resend.dev`
+- [ ] Verify your own sending domain in Resend so emails come from your addressFounder not `resend.dev`

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -27,9 +27,6 @@ export function Hero() {
         <span className="coord-tag !text-canvas/50">SITE — ASHTA, MAHARASHTRA</span>
         <span className="coord-tag !text-canvas/50">{formatCoordinates(siteConfig.coordinates.lat, siteConfig.coordinates.lng)}</span>
       </div>
-      <div className="absolute right-6 top-24 hidden text-right md:block">
-        <span className="coord-tag !text-canvas/50">EST. {new Date().getFullYear() - 3}</span>
-      </div>
 
       {/* Drawn corner brackets — architectural drawing-sheet framing */}
       <motion.div
@@ -51,7 +48,7 @@ export function Hero() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="eyebrow mb-6"
         >
-          Architecture · Construction · Interiors — {siteConfig.experience} in Maharashtra
+          Architecture · Construction · Interiors in Maharashtra
         </motion.p>
 
         <h1 className="max-w-4xl text-display-1 font-display font-normal text-balance">
@@ -110,3 +107,4 @@ export function Hero() {
     </section>
   );
 }
+

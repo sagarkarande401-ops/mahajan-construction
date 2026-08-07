@@ -1,4 +1,4 @@
-import { SignJWT, jwtVerify } from "jose";
+﻿import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
 const SESSION_COOKIE = "mc_admin_session";
@@ -57,3 +57,4 @@ export async function verifyAdminToken(token: string | undefined): Promise<boole
 }
 
 export const ADMIN_SESSION_COOKIE_NAME = SESSION_COOKIE;
+

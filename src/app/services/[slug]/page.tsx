@@ -10,8 +10,16 @@ import { ServiceFaqAccordion } from "./ServiceFaqAccordion";
 import { PLACEHOLDER_IMAGE } from "@/lib/utils";
 
 const icons: Record<string, React.ElementType> = {
-  compass: Compass, "hard-hat": HardHat, sofa: Sofa, ruler: Ruler, key: Key,
-  hammer: Hammer, "clipboard-check": ClipboardCheck, box: Box, "building-2": Building2, home: Home,
+  compass: Compass,
+  "hard-hat": HardHat,
+  sofa: Sofa,
+  ruler: Ruler,
+  key: Key,
+  hammer: Hammer,
+  "clipboard-check": ClipboardCheck,
+  box: Box,
+  "building-2": Building2,
+  home: Home,
 };
 
 export async function generateStaticParams() {

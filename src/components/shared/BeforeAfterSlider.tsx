@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef, useState, useCallback } from "react";
 import Image from "next/image";
@@ -48,3 +48,4 @@ export function BeforeAfterSlider({ before, after }: { before: string; after: st
     </div>
   );
 }
+

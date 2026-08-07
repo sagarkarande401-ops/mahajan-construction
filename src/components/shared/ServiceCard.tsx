@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -44,3 +44,4 @@ export function ServiceCard({ service, index = 0 }: { service: Service; index?: 
     </motion.div>
   );
 }
+

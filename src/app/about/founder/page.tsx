@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Image from "next/image";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { RevealOnScroll } from "@/components/shared/RevealOnScroll";
@@ -6,7 +6,7 @@ import { siteConfig } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Founder",
-  description: `Saish Mahajan, Founder & Principal of Mahajan Construction, Ashta, Maharashtra.`,
+  description: `Saish Mahajan, Founder of Mahajan Construction, Ashta, Maharashtra.`,
 };
 
 export default function FounderPage() {
@@ -23,7 +23,7 @@ export default function FounderPage() {
       <div>
         <SectionHeading eyebrow="About / Founder" title="Saish Mahajan" />
         <RevealOnScroll delay={0.1} className="mt-6 max-w-xl space-y-5 text-lg leading-relaxed text-concrete">
-          <p>Founder & Principal, Mahajan Construction — {siteConfig.experience} in practice.</p>
+        <p>Founder Mahajan Construction.</p>
           <p>
             Saish leads every project the studio takes on personally, from the first site walk to the final
             snag-list closure. He believes a client shouldn&rsquo;t have to manage the gap between an architect, a
@@ -35,3 +35,4 @@ export default function FounderPage() {
     </section>
   );
 }
+

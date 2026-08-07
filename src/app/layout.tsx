@@ -1,9 +1,11 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Fraunces, Inter, IBM_Plex_Mono } from "next/font/google";
+// Ignore missing type declarations for global CSS side-effect import
+// @ts-ignore
 import "./globals.css";
+
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
-import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 import { BackToTop } from "@/components/layout/BackToTop";
 import { PageLoader } from "@/components/layout/PageLoader";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
@@ -54,7 +56,14 @@ export const metadata: Metadata = {
     title: `${siteConfig.name} | Architecture, built with intent.`,
     description: siteConfig.description,
     siteName: siteConfig.name,
-    images: [{ url: "/images/og-cover.jpg", width: 1200, height: 630, alt: siteConfig.name }],
+    images: [
+      {
+        url: "/images/og-cover.jpg",
+        width: 1200,
+        height: 630,
+        alt: siteConfig.name,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -62,23 +71,38 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: ["/images/og-cover.jpg"],
   },
-  robots: { index: true, follow: true },
-  icons: { icon: "/favicon.ico" },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${fraunces.variable} ${inter.variable} ${plexMono.variable} font-sans`}>
+      <body
+        className={`${fraunces.variable} ${inter.variable} ${plexMono.variable} font-sans`}
+      >
         <ThemeProvider>
           <PageLoader />
+
           <Navbar />
-          <main>{children}</main>
+
+          <main className="pt-20">{children}</main>
+
           <Footer />
-          <WhatsAppButton />
+
           <BackToTop />
         </ThemeProvider>
       </body>
     </html>
   );
 }
+

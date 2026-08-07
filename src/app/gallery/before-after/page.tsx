@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { getProjects } from "@/lib/data/projects";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { BeforeAfterSlider } from "@/components/shared/BeforeAfterSlider";
@@ -23,3 +23,4 @@ export default async function Page() {
     </section>
   );
 }
+

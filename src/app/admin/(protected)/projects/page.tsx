@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import Image from "next/image";
 import { Plus } from "lucide-react";
 import { prisma } from "@/lib/prisma";
@@ -43,3 +43,4 @@ export default async function AdminProjectsPage() {
     </div>
   );
 }
+

@@ -1,5 +1,6 @@
 import type { Config } from "tailwindcss";
 import typography from "@tailwindcss/typography";
+
 const config: Config = {
   darkMode: "class",
   content: ["./src/**/*.{ts,tsx}"],
@@ -56,14 +57,14 @@ const config: Config = {
       },
       animation: {
         marquee: "marquee 32s linear infinite",
-        "fade-up": "fade-up 0.8s cubic-bezier(0.16,1,0.3,1) forwards",
+        "fade-up": "fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards",
       },
       transitionTimingFunction: {
         luxury: "cubic-bezier(0.16, 1, 0.3, 1)",
       },
     },
   },
-  plugins: [typography]
+  plugins: [typography],
 };
 
 export default config;

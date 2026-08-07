@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+﻿import { prisma } from "@/lib/prisma";
 import { GalleryMediaType } from "@prisma/client";
 
 export async function getTestimonials() {
@@ -28,12 +28,6 @@ export async function getSiteStats() {
   const byKey = Object.fromEntries(stats.map((s) => [s.key, s]));
 
   return {
-    experience:
-      byKey["experience_years"] ?? {
-        label: "Years in Practice",
-        value: 3,
-        suffix: "+",
-      },
     projectsDelivered:
       byKey["projects_delivered"] ?? {
         label: "Projects Delivered",

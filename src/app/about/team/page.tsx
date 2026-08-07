@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Image from "next/image";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { RevealOnScroll } from "@/components/shared/RevealOnScroll";
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 // NOTE: Replace with real team members, photos, and titles when available.
 const team = [
-  { name: "Saish Mahajan", role: "Founder & Principal", img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=800&auto=format&fit=crop" },
+  { name: "Saish Mahajan", role: ",", img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=800&auto=format&fit=crop" },
   { name: "Site Team", role: "Construction & Supervision", img: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=800&auto=format&fit=crop" },
   { name: "Design Team", role: "Architecture & Interiors", img: "https://images.unsplash.com/photo-1568992687947-868a62a9f521?q=80&w=800&auto=format&fit=crop" },
 ];
@@ -33,3 +33,4 @@ export default function TeamPage() {
     </section>
   );
 }
+

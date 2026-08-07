@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { RevealOnScroll } from "@/components/shared/RevealOnScroll";
 
@@ -13,7 +13,7 @@ export default function OurStoryPage() {
       <SectionHeading eyebrow="About / Our Story" title="How it started." />
       <RevealOnScroll className="mt-10 max-w-2xl space-y-5 text-lg leading-relaxed text-concrete">
         <p>
-          Mahajan Construction began in Ashta with a single, small residential project and a founder who insisted on
+          Mahajan Construction began in Ashta with a single, small residential project and a Founder who insisted on
           being on-site every day it was under construction. That habit never went away.
         </p>
         <p>
@@ -29,3 +29,4 @@ export default function OurStoryPage() {
     </section>
   );
 }
+

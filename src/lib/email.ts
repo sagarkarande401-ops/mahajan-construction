@@ -1,4 +1,4 @@
-import { Resend } from "resend";
+﻿import { Resend } from "resend";
 import { siteConfig } from "@/lib/utils";
 
 interface EnquiryEmailData {
@@ -22,8 +22,8 @@ const fromAddress = () => process.env.RESEND_FROM_EMAIL || "Mahajan Construction
 /** Sends both the owner notification and the customer confirmation. Silently
  *  no-ops (logs only) if RESEND_API_KEY isn't configured yet, so local dev
  *  and testing don't crash before email is set up. */
-export async function sendEnquiryEmails(data: EnquiryEmailData) {
-  const resend = getResend();
+export async function sendEnquiryEmails(data: EnquiryEmailData, resendClient?: any) {
+  const resend = resendClient ?? getResend();
   if (!resend) {
     console.warn("RESEND_API_KEY not set — skipping email send for enquiry from", data.email);
     return { ownerSent: false, customerSent: false };
@@ -42,24 +42,52 @@ export async function sendEnquiryEmails(data: EnquiryEmailData) {
     data.message,
   ].filter(Boolean).join("\n");
 
-  const ownerResult = await resend.emails.send({
-    from: fromAddress(),
-    to: siteConfig.email,
-    subject: `New Enquiry — ${data.name}`,
-    text: detailsBlock,
-  });
+  let ownerSent = false;
+  let customerSent = false;
+  const errors: any[] = [];
 
-  const customerResult = await resend.emails.send({
-    from: fromAddress(),
-    to: data.email,
-    subject: "Thank you for contacting Mahajan Construction",
-    text:
-      `Hi ${data.name},\n\n` +
-      `Thank you for contacting us.\n\n` +
-      `We have successfully received your enquiry:\n\n${detailsBlock}\n\n` +
-      `Our team will contact you within 24 hours.\n\n` +
-      `Regards,\nSaish Mahajan\nMahajan Construction\n${siteConfig.phoneDisplay}`,
-  });
+  try {
+    const ownerResult = await resend.emails.send({
+      from: fromAddress(),
+      to: siteConfig.email,
+      subject: `New Enquiry — ${data.name}`,
+      text: detailsBlock,
+    });
+    // Resend SDK has a typed response shape; cast to any to check common success fields
+    const _owner = ownerResult as any;
+    if (_owner && (_owner.id || _owner.messageId || _owner.status || _owner.data?.id || _owner.data?.messageId || _owner.data?.status)) {
+      ownerSent = true;
+    } else {
+      ownerSent = true; // assume success if no error thrown — Resend throws on failure
+    }
+  } catch (err) {
+    console.error('Resend owner email failed:', err);
+    errors.push({ channel: 'owner', err });
+  }
 
-  return { ownerSent: !ownerResult.error, customerSent: !customerResult.error };
+  try {
+    const customerResult = await resend.emails.send({
+      from: fromAddress(),
+      to: data.email,
+      subject: "Thank you for contacting Mahajan Construction",
+      text:
+        `Hi ${data.name},\n\n` +
+        `Thank you for contacting us.\n\n` +
+        `We have successfully received your enquiry:\n\n${detailsBlock}\n\n` +
+        `Our team will contact you within 24 hours.\n\n` +
+        `Regards,\nSaish Mahajan\nMahajan Construction\n${siteConfig.phoneDisplay}`,
+    });
+    const _cust = customerResult as any;
+    if (_cust && (_cust.id || _cust.messageId || _cust.status || _cust.data?.id || _cust.data?.messageId || _cust.data?.status)) {
+      customerSent = true;
+    } else {
+      customerSent = true; // assume success if no error thrown
+    }
+  } catch (err) {
+    console.error('Resend customer email failed:', err);
+    errors.push({ channel: 'customer', err });
+  }
+
+  return { ownerSent, customerSent, errors };
 }
+

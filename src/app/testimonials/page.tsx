@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Star } from "lucide-react";
 import { getTestimonials } from "@/lib/data/content";
 import { RevealOnScroll } from "@/components/shared/RevealOnScroll";
@@ -37,3 +37,4 @@ export default async function TestimonialsPage() {
     </section>
   );
 }
+

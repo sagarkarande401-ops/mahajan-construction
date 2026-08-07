@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { ArrowRight, Phone } from "lucide-react";
 import { RevealOnScroll } from "@/components/shared/RevealOnScroll";
 import { siteConfig } from "@/lib/utils";
@@ -37,3 +37,4 @@ export function CTASection() {
     </section>
   );
 }
+

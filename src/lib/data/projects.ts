@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+﻿import { prisma } from "@/lib/prisma";
 import { ProjectCategory } from "@prisma/client";
 
 const projectInclude = {
@@ -43,3 +43,4 @@ export async function getRelatedProjects(slug: string, category: ProjectCategory
     include: projectInclude,
   });
 }
+

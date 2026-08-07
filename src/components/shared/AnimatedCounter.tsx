@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView, animate } from "framer-motion";
@@ -37,3 +37,4 @@ export function AnimatedCounter({ to, suffix = "", prefix = "", duration = 1.8, 
     </motion.div>
   );
 }
+

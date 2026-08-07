@@ -1,4 +1,4 @@
-import { MetadataRoute } from "next";
+﻿import { MetadataRoute } from "next";
 import { getProjects } from "@/lib/data/projects";
 import { getBlogPosts } from "@/lib/data/content";
 import { siteConfig } from "@/lib/utils";

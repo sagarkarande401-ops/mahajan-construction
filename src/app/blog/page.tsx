@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { getBlogPosts } from "@/lib/data/content";
@@ -50,3 +50,4 @@ export default function BlogPage() {
     </section>
   );
 }
+

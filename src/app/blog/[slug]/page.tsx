@@ -11,7 +11,7 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({
-  params,
+  params
 }: {
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
@@ -26,7 +26,7 @@ export async function generateMetadata({
 }
 
 export default async function BlogPostPage({
-  params,
+  params
 }: {
   params: Promise<{ slug: string }>;
 }) {
@@ -48,7 +48,7 @@ export default async function BlogPostPage({
         <h1 className="mt-6 max-w-3xl text-balance text-display-2 font-display font-normal text-ink dark:text-canvas">
           {post.title}
         </h1>
-        <p className="mt-4 text-concrete">By {post.author}, {siteConfig.name}</p>
+        <p className="mt-4 text-concrete">By {post.author} · {siteConfig.name}</p>
       </section>
 
       <div className="container-px mx-auto">

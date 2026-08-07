@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { getFaqs } from "@/lib/data/content";
 import { FaqAccordion } from "./FaqAccordion";
 
@@ -26,3 +26,4 @@ export default async function FaqPage() {
     </section>
   );
 }
+

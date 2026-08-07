@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Moon, Sun, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "@/components/layout/ThemeProvider";
+import { WhatsAppButton } from "@/components/layout/WhatsAppButton";
 
 interface NavLink { href: string; label: string; children?: { href: string; label: string }[]; }
 
@@ -15,7 +16,7 @@ const navLinks: NavLink[] = [
     href: "/about", label: "About",
     children: [
       { href: "/about/our-story", label: "Our Story" },
-      { href: "/about/founder", label: "Founder" },
+    { href: "/about/founder", label: "Founder" },
       { href: "/about/vision", label: "Vision" },
       { href: "/about/team", label: "Team" },
     ],
@@ -70,6 +71,10 @@ export function Navbar() {
 
   useEffect(() => { setOpen(false); setMobileSubOpen(null); }, [pathname]);
 
+  if (pathname.startsWith("/admin")) {
+    return null;
+  }
+
   return (
     <>
       <header
@@ -122,12 +127,12 @@ export function Navbar() {
             >
               {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </button>
-            <Link
-              href="/contact"
-              className="hidden h-11 items-center border border-ink px-6 text-sm tracking-wide text-ink transition-all duration-500 hover:bg-ink hover:text-canvas dark:border-canvas dark:text-canvas dark:hover:bg-canvas dark:hover:text-ink lg:flex"
-            >
-              Book Consultation
-            </Link>
+       <Link
+  href="/book-consultation"
+  className="hidden h-11 items-center border border-ink px-6 text-sm tracking-wide text-ink transition-all duration-500 hover:bg-ink hover:text-canvas dark:border-canvas dark:text-canvas dark:hover:bg-canvas dark:hover:text-ink lg:flex"
+>
+  Book Consultation
+</Link>
             <button
               aria-label="Toggle menu"
               onClick={() => setOpen((o) => !o)}
@@ -185,15 +190,19 @@ export function Navbar() {
                 </div>
               ))}
               <Link
-                href="/contact"
-                className="mt-6 flex h-12 items-center justify-center bg-ink text-canvas dark:bg-canvas dark:text-ink"
-              >
-                Book Consultation
-              </Link>
+  href="/book-consultation"
+  className="mt-6 flex h-12 items-center justify-center bg-ink text-canvas dark:bg-canvas dark:text-ink"
+>
+  Book Consultation
+</Link>
             </nav>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Floating WhatsApp button (right side). Navbar is not rendered on /admin, so admin pages won't show this. */}
+      <WhatsAppButton />
     </>
   );
 }
+

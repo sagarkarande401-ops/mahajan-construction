@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { motion } from "framer-motion";
 import { ReactNode } from "react";
@@ -26,3 +26,4 @@ export function RevealOnScroll({ children, delay = 0, y = 28, className, once = 
     </motion.div>
   );
 }
+

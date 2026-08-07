@@ -1,4 +1,4 @@
-import { MetadataRoute } from "next";
+﻿import { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/utils";
 
 export default function robots(): MetadataRoute.Robots {
@@ -7,3 +7,4 @@ export default function robots(): MetadataRoute.Robots {
     sitemap: `${siteConfig.url}/sitemap.xml`,
   };
 }
+

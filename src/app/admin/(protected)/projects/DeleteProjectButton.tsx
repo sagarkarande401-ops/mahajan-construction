@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useTransition } from "react";
 import { deleteProject } from "@/app/actions/admin-projects";
@@ -25,3 +25,4 @@ export function DeleteProjectButton({ id, name }: { id: string; name: string }) 
     </button>
   );
 }
+

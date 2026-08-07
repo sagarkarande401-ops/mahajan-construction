@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -47,3 +47,4 @@ export function ProjectCard({ project, index = 0 }: { project: ProjectWithRelati
     </motion.div>
   );
 }
+

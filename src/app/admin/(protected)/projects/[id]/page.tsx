@@ -6,7 +6,7 @@ export default async function EditProjectPage({ params }: { params: Promise<{ id
   const { id } = await params;
   const project = await prisma.project.findUnique({
     where: { id },
-    include: { images: true, videos: true, timelineSteps: true, beforeAfterPairs: true },
+    include: { images: true, videos: true, timelineSteps: true, beforeAfterPairs: true }
   });
   if (!project) notFound();
 

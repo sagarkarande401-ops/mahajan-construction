@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/prisma";
+﻿import { prisma } from "@/lib/prisma";
 
 export async function getServices() {
   return prisma.service.findMany({
@@ -14,3 +14,4 @@ export async function getServiceBySlug(slug: string) {
     include: { processSteps: { orderBy: { order: "asc" } }, faqs: { orderBy: { order: "asc" } }, images: { orderBy: { order: "asc" } } },
   });
 }
+

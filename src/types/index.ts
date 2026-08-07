@@ -1,4 +1,4 @@
-import type {
+﻿import type {
   Project, ProjectImage, ProjectVideo, ProjectTimelineStep, ProjectBeforeAfter,
   Service, ServiceProcessStep, ServiceFaq, ServiceImage,
   Testimonial, Faq, GalleryItem, Enquiry,
@@ -26,3 +26,4 @@ export type {
   Service, ServiceProcessStep, ServiceFaq, ServiceImage,
   Testimonial, Faq, GalleryItem, Enquiry,
 };
+

@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { LayoutDashboard, Inbox, Briefcase, Layers, Image as ImageIcon, Star, HelpCircle } from "lucide-react";
 import { LogoutButton } from "./LogoutButton";
 
@@ -35,3 +35,4 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     </div>
   );
 }
+

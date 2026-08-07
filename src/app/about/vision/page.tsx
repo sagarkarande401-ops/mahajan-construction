@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { RevealOnScroll } from "@/components/shared/RevealOnScroll";
 
@@ -33,3 +33,4 @@ export default function VisionPage() {
     </section>
   );
 }
+

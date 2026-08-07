@@ -1,4 +1,4 @@
-import { clsx, type ClassValue } from "clsx";
+﻿import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -12,13 +12,13 @@ export const siteConfig = {
   description:
     "Mahajan Construction designs and builds premium residential and commercial projects in Ashta, Sangli, and across Maharashtra — architecture, construction, interiors, and turnkey delivery under one accountable team.",
   url: "https://mahajanconstruction.in",
-  email: "saismahajan5555@gmail.com",
+  email: "saishmahajan5555@gmail.com",
   phone: "+91 7028187271",
   phoneDisplay: "+91 70281 87271",
   whatsapp: "917028187271",
   address: "Ashta, Sangli District, Maharashtra, India",
   coordinates: { lat: 16.9167, lng: 74.4167 }, // Ashta, Maharashtra
-  experience: "3+ Years",
+
   social: {
     instagram: "https://instagram.com",
     facebook: "https://facebook.com",
@@ -45,3 +45,4 @@ export function formatEnumLabel(value: string) {
 // Shown when a project/service/gallery item has no image yet — expected until
 // real photos are uploaded via the admin panel.
 export const PLACEHOLDER_IMAGE = "/images/placeholder.svg";
+

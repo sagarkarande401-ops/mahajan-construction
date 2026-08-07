@@ -1,4 +1,4 @@
-"use server";
+﻿"use server";
 
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
@@ -23,3 +23,4 @@ export async function loginAdmin(raw: unknown): Promise<{ success: boolean; erro
 export async function logoutAdmin() {
   await destroyAdminSession();
 }
+

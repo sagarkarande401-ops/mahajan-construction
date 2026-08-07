@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { Instagram, Facebook, Linkedin, ArrowUpRight } from "lucide-react";
 import { siteConfig, formatCoordinates } from "@/lib/utils";
 
@@ -39,7 +39,7 @@ export function Footer() {
             <h3 className="font-display text-3xl">Mahajan Construction</h3>
             <p className="coord-tag mt-2 !text-canvas/40">{formatCoordinates(siteConfig.coordinates.lat, siteConfig.coordinates.lng)} — Ashta, Maharashtra</p>
             <p className="mt-6 max-w-xs text-canvas/60">
-              Architecture, construction, and interiors delivered as one accountable scope — {siteConfig.experience} building premium spaces across Maharashtra.
+            Architecture, construction, and interiors delivered as one accountable scope — building premium spaces across Maharashtra.
             </p>
             <div className="mt-8 flex gap-4">
               {[Instagram, Facebook, Linkedin].map((Icon, i) => (
@@ -74,14 +74,14 @@ export function Footer() {
         </div>
 
         <div className="mt-16 flex flex-col gap-6 border-t border-canvas/10 pt-8 md:flex-row md:items-center md:justify-between">
-          <div className="flex flex-col gap-1 text-sm text-canvas/60 md:flex-row md:gap-6">
-            <a href={`mailto:${siteConfig.email}`} className="hover:text-gold">{siteConfig.email}</a>
-            <a href={`tel:${siteConfig.phone}`} className="hover:text-gold">{siteConfig.phoneDisplay}</a>
-            <span>{siteConfig.address}</span>
-          </div>
-          <p className="text-xs text-canvas/40">© {new Date().getFullYear()} Mahajan Construction. All rights reserved.</p>
+        <div className="flex flex-col gap-1 text-sm text-canvas/60 md:flex-row md:gap-6">
+          <a href={`mailto:${siteConfig.email}`} className="hover:text-gold">{siteConfig.email}</a>
+          <a href={`tel:${siteConfig.phone}`} className="hover:text-gold">{siteConfig.phoneDisplay}</a>
+          <span>{siteConfig.address}</span>
+        </div>
         </div>
       </div>
     </footer>
   );
 }
+

@@ -1,4 +1,4 @@
-import { SectionHeading } from "@/components/shared/SectionHeading";
+﻿import { SectionHeading } from "@/components/shared/SectionHeading";
 import { RevealOnScroll } from "@/components/shared/RevealOnScroll";
 import { ShieldCheck, Clock, FileSpreadsheet, Users } from "lucide-react";
 
@@ -44,3 +44,4 @@ export function WhyChooseUs() {
     </section>
   );
 }
+

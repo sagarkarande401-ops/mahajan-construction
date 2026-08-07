@@ -1,4 +1,4 @@
-import { z } from "zod";
+﻿import { z } from "zod";
 
 export const enquirySchema = z.object({
   name: z.string().trim().min(2, "Please enter your full name."),
@@ -8,7 +8,7 @@ export const enquirySchema = z.object({
   budget: z.string().optional(),
   location: z.string().optional(),
   message: z.string().trim().min(5, "Please tell us a little about your project."),
-  source: z.enum(["CONTACT_PAGE", "SERVICE_PAGE", "PROJECT_PAGE"]).default("CONTACT_PAGE"),
+  source: z.enum(["CONTACT_PAGE", "SERVICE_PAGE", "PROJECT_PAGE", "BOOK_CONSULTATION"]).default("CONTACT_PAGE"),
   serviceSlug: z.string().optional(),
   projectSlug: z.string().optional(),
 });
@@ -69,3 +69,4 @@ export const loginSchema = z.object({
   email: z.string().trim().email(),
   password: z.string().min(6),
 });
+

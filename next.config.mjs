@@ -6,18 +6,18 @@ const nextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "res.cloudinary.com" },
-      { protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
+      { protocol: "https", hostname: "*.public.blob.vercel-storage.com" }
     ],
-    formats: ["image/avif", "image/webp"],
+    formats: ["image/avif", "image/webp"]
   },
 
   compress: true,
 
   experimental: {
     serverActions: {
-      bodySizeLimit: "10mb",
-    },
-  },
+      bodySizeLimit: "10mb"
+    }
+  }
 };
 
 export default nextConfig;

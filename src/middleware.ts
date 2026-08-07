@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
 import { verifyAdminToken, ADMIN_SESSION_COOKIE_NAME } from "@/lib/auth";
 
 export async function middleware(req: NextRequest) {
@@ -22,3 +22,4 @@ export async function middleware(req: NextRequest) {
 export const config = {
   matcher: ["/admin/:path*"],
 };
+

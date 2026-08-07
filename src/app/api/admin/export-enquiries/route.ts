@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+﻿import { NextResponse } from "next/server";
 import ExcelJS from "exceljs";
 import { prisma } from "@/lib/prisma";
 import { getAdminSession } from "@/lib/auth";
@@ -46,3 +46,4 @@ export async function GET() {
     },
   });
 }
+

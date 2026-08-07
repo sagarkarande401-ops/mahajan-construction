@@ -1,4 +1,4 @@
-"use server";
+﻿"use server";
 
 import { prisma } from "@/lib/prisma";
 import { enquirySchema, EnquiryInput } from "@/lib/validation";
@@ -25,6 +25,10 @@ export async function submitEnquiry(raw: unknown): Promise<SubmitEnquiryResult> 
   const data = parsed.data;
 
   try {
+    // Map BOOK_CONSULTATION to an existing DB enum value so Prisma type checks and the DB stay compatible.
+    const dbSource: "CONTACT_PAGE" | "SERVICE_PAGE" | "PROJECT_PAGE" =
+      data.source === "BOOK_CONSULTATION" ? "CONTACT_PAGE" : (data.source as "CONTACT_PAGE" | "SERVICE_PAGE" | "PROJECT_PAGE");
+
     await prisma.enquiry.create({
       data: {
         name: data.name,
@@ -34,7 +38,7 @@ export async function submitEnquiry(raw: unknown): Promise<SubmitEnquiryResult> 
         budget: data.budget,
         location: data.location,
         message: data.message,
-        source: data.source,
+        source: dbSource,
         serviceSlug: data.serviceSlug,
         projectSlug: data.projectSlug,
       },
@@ -44,19 +48,25 @@ export async function submitEnquiry(raw: unknown): Promise<SubmitEnquiryResult> 
     return { success: false, error: "Something went wrong saving your enquiry. Please try again or contact us directly." };
   }
 
-  // Email failures shouldn't block the success response — the enquiry is
-  // already saved and visible in the admin dashboard either way.
+  // Send emails (owner notification + customer confirmation) using Resend if configured.
+  // Failures are logged but do not block the HTTP response.
   try {
     await sendEnquiryEmails({
-      name: data.name, phone: data.phone, email: data.email,
-      projectType: data.projectType, budget: data.budget, location: data.location,
-      message: data.message, source: data.source,
+      name: data.name,
+      phone: data.phone,
+      email: data.email,
+      projectType: data.projectType,
+      budget: data.budget,
+      location: data.location,
+      message: data.message,
+      source: data.source,
     });
   } catch (err) {
-    console.error("Failed to send enquiry emails:", err);
+    console.error('Failed to send enquiry emails:', err);
   }
 
   const whatsappMessage = `Hi Mahajan Construction, I just submitted an enquiry.\n\nName: ${data.name}\nProject Type: ${data.projectType || "-"}\nLocation: ${data.location || "-"}\nMessage: ${data.message}`;
 
   return { success: true, whatsappMessage };
 }
+

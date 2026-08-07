@@ -1,4 +1,4 @@
-import { ProjectCard } from "@/components/shared/ProjectCard";
+﻿import { ProjectCard } from "@/components/shared/ProjectCard";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ProjectWithRelations } from "@/types";
 
@@ -18,3 +18,4 @@ export function CategoryProjectsPage({
     </section>
   );
 }
+

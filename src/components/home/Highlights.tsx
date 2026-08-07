@@ -1,4 +1,4 @@
-import { AnimatedCounter } from "@/components/shared/AnimatedCounter";
+﻿import { AnimatedCounter } from "@/components/shared/AnimatedCounter";
 import { RevealOnScroll } from "@/components/shared/RevealOnScroll";
 import { getSiteStats } from "@/lib/data/content";
 
@@ -7,7 +7,7 @@ import { getSiteStats } from "@/lib/data/content";
 // Projects Delivered, Cities & Towns Served. Do not re-add a 4th stat here.
 export async function Highlights() {
   const stats = await getSiteStats();
-  const items = [stats.experience, stats.projectsDelivered, stats.citiesServed];
+  const items = [stats.projectsDelivered, stats.citiesServed];
 
   return (
     <section className="border-y border-line bg-beige-soft dark:border-line-dark dark:bg-ink-soft">
@@ -21,3 +21,4 @@ export async function Highlights() {
     </section>
   );
 }
+

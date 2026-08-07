@@ -1,4 +1,4 @@
-// The 6-stage process is presentational, fixed content — not part of the admin panel's
+﻿// The 6-stage process is presentational, fixed content — not part of the admin panel's
 // manageable content types per the current spec (unlike Projects/Services/Testimonials/FAQ).
 // If you want this editable from /admin later, it's a small addition — ask.
 
@@ -14,3 +14,4 @@ export const processSteps: ProcessStep[] = [
 ];
 
 export const getProcessSteps = () => processSteps;
+

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { getProjects } from "@/lib/data/projects";
 import { ProjectsGrid } from "./ProjectsGrid";
 
@@ -27,3 +27,4 @@ export default async function ProjectsPage() {
     </section>
   );
 }
+

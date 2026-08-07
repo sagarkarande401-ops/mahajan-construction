@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useMemo } from "react";
 import { Search, Download, Trash2 } from "lucide-react";
@@ -127,3 +127,4 @@ export function EnquiriesTable({ initialEnquiries }: { initialEnquiries: Enquiry
     </div>
   );
 }
+

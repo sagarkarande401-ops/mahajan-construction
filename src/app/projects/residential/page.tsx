@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { getProjectsByCategory } from "@/lib/data/projects";
 import { CategoryProjectsPage } from "@/components/shared/CategoryProjectsPage";
 
@@ -8,3 +8,4 @@ export default async function Page() {
   const projects = await getProjectsByCategory("RESIDENTIAL");
   return <CategoryProjectsPage eyebrow="Projects / Residential" title="Homes, built to be lived in." description="Bungalows, farmhouses, and villa communities across Ashta and Sangli." projects={projects} />;
 }
+

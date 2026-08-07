@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
@@ -27,3 +27,4 @@ export function DeleteButton({ id, name, action }: { id: string; name: string; a
     </button>
   );
 }
+

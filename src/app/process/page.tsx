@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { getProcessSteps } from "@/lib/data/process";
 import { RevealOnScroll } from "@/components/shared/RevealOnScroll";
 
@@ -38,3 +38,4 @@ export default function ProcessPage() {
     </>
   );
 }
+

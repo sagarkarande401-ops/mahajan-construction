@@ -1,4 +1,4 @@
-import { Star } from "lucide-react";
+﻿import { Star } from "lucide-react";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { RevealOnScroll } from "@/components/shared/RevealOnScroll";
 import { getTestimonials } from "@/lib/data/content";
@@ -32,3 +32,4 @@ export async function TestimonialsPreview() {
     </section>
   );
 }
+

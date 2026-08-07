@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { getGalleryItems } from "@/lib/data/content";
 import { GalleryGrid } from "./GalleryGrid";
 
@@ -26,3 +26,4 @@ export default async function GalleryPage() {
     </section>
   );
 }
+

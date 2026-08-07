@@ -47,7 +47,7 @@ model Enquiry {
   location    String?
   message     String
   source      EnquirySource @default(CONTACT_PAGE)
-  // If the enquiry came from a specific service or project page, keep a reference
+  // If the enquiry came from a specific service or project page keep a reference
   serviceSlug String?
   projectSlug String?
   status      EnquiryStatus @default(PENDING)
@@ -162,7 +162,7 @@ model ProjectVideo {
   id        String  @id @default(cuid())
   projectId String
   project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  url       String  // YouTube/Vimeo embed URL, or direct video file URL from blob storage
+  url       String  // YouTube/Vimeo embed URL or direct video file URL from blob storage
   title     String?
   order     Int     @default(0)
 }
@@ -186,7 +186,7 @@ model ProjectBeforeAfter {
   order      Int     @default(0)
 }
 
-// ==================== GALLERY (standalone photos/videos, not tied to a project) ====================
+// ==================== GALLERY (standalone photos/videos not tied to a project) ====================
 
 enum GalleryMediaType {
   PHOTO
@@ -218,7 +218,7 @@ model Testimonial {
   createdAt   DateTime @default(now())
 }
 
-// ==================== FAQ (general site FAQ, separate from per-service FAQ) ====================
+// ==================== FAQ (general site FAQ — separate from per-service FAQ) ====================
 
 model Faq {
   id        String   @id @default(cuid())

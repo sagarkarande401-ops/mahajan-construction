@@ -1,4 +1,4 @@
-import { RevealOnScroll } from "./RevealOnScroll";
+﻿import { RevealOnScroll } from "./RevealOnScroll";
 import { cn } from "@/lib/utils";
 
 interface SectionHeadingProps {
@@ -25,3 +25,4 @@ export function SectionHeading({ eyebrow, title, description, align = "left", in
     </RevealOnScroll>
   );
 }
+

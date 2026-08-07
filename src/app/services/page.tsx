@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Compass, HardHat, Sofa, Ruler, Key, Hammer, ClipboardCheck, Box, Building2, Home } from "lucide-react";
 import { SectionHeading } from "@/components/shared/SectionHeading";
@@ -70,3 +70,4 @@ export default async function ServicesPage() {
     </>
   );
 }
+

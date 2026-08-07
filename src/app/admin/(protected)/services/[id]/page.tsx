@@ -6,7 +6,7 @@ export default async function EditServicePage({ params }: { params: Promise<{ id
   const { id } = await params;
   const service = await prisma.service.findUnique({
     where: { id },
-    include: { processSteps: { orderBy: { order: "asc" } }, faqs: true, images: true },
+    include: { processSteps: { orderBy: { order: "asc" } }, faqs: true, images: true }
   });
   if (!service) notFound();
 

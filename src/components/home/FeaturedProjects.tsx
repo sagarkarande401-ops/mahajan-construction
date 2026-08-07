@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { ProjectCard } from "@/components/shared/ProjectCard";
@@ -35,3 +35,4 @@ export async function FeaturedProjects() {
     </section>
   );
 }
+

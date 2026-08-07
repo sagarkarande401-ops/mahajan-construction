@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Image from "next/image";
 import { SectionHeading } from "@/components/shared/SectionHeading";
 import { RevealOnScroll } from "@/components/shared/RevealOnScroll";
@@ -7,7 +7,7 @@ import { siteConfig } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "About",
-  description: `Meet ${siteConfig.owner} and the Mahajan Construction studio — ${siteConfig.experience} designing and building premium residential and commercial projects in Ashta, Maharashtra.`,
+  description: `Meet ${siteConfig.owner} and the Mahajan Construction studio — designing and building premium residential and commercial projects in Ashta, Maharashtra.`,
 };
 
 const values = [
@@ -43,14 +43,14 @@ export default function AboutPage() {
           <SectionHeading
             eyebrow="The Founder"
             title="Saish Mahajan"
-            description="Founder & Principal, Mahajan Construction"
+            description="Mahajan Construction"
           />
           <RevealOnScroll className="space-y-5 text-concrete">
             <p>
               Saish Mahajan founded Mahajan Construction in Ashta with a simple premise: a client shouldn&rsquo;t need to hire a separate architect, contractor, and interior designer — and then manage the gaps between them.
             </p>
             <p>
-              Over {siteConfig.experience.toLowerCase()}, the studio has taken on residential bungalows, farmhouses, commercial plazas, and full home renovations across Ashta, Sangli, and Miraj — each run under the same principle: one accountable team, from the first sketch to the final key handover.
+              Over the years, the studio has taken on residential bungalows, farmhouses, commercial plazas, and full home renovations across Ashta, Sangli, and Miraj — each run under the same principle: one accountable team, from the first sketch to the final key handover.
             </p>
             <p>
               Saish remains personally involved on every project the studio takes on, from the first site walk to the final snag-list closure.
@@ -60,8 +60,7 @@ export default function AboutPage() {
       </section>
 
       <section className="border-y border-line bg-beige-soft py-16 dark:border-line-dark dark:bg-ink-soft">
-        <div className="container-px mx-auto grid grid-cols-1 gap-10 sm:grid-cols-3">
-          <AnimatedCounter to={3} suffix="+" label="Years in Practice" />
+        <div className="container-px mx-auto grid grid-cols-1 gap-10 sm:grid-cols-2">
           <AnimatedCounter to={40} suffix="+" label="Projects Delivered" />
           <AnimatedCounter to={18} label="Cities & Towns Served" />
         </div>
@@ -84,3 +83,4 @@ export default function AboutPage() {
     </>
   );
 }
+

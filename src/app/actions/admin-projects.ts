@@ -1,4 +1,4 @@
-"use server";
+﻿"use server";
 
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
@@ -106,3 +106,4 @@ export async function deleteProjectVideo(videoId: string) {
   await prisma.projectVideo.delete({ where: { id: videoId } });
   revalidatePath("/admin/projects");
 }
+

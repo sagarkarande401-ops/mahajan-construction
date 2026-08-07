@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -10,7 +10,7 @@ import { siteConfig } from "@/lib/utils";
 const projectTypes = ["Residential", "Commercial", "Interior Design", "Renovation", "Turnkey Project", "Other"];
 
 interface EnquiryFormProps {
-  source?: "CONTACT_PAGE" | "SERVICE_PAGE" | "PROJECT_PAGE";
+  source?: "CONTACT_PAGE" | "SERVICE_PAGE" | "PROJECT_PAGE" | "BOOK_CONSULTATION";
   serviceSlug?: string;
   projectSlug?: string;
   /** Pre-fills the message field, e.g. "I'd like to enquire about Architecture Design." */
@@ -69,7 +69,7 @@ export function EnquiryForm({ source = "CONTACT_PAGE", serviceSlug, projectSlug,
         </span>
         <h3 className="font-display text-2xl text-ink dark:text-canvas">Message received.</h3>
         <p className="text-concrete">
-          Thank you for reaching out. A confirmation has been sent to your email, and our team will contact you within 24 hours.
+          Thank you for reaching out. We have received your enquiry — our team will contact you within 24 hours. You can also message us directly on WhatsApp using the button below.
         </p>
         <a
           href={waHref}
@@ -148,3 +148,4 @@ export function EnquiryForm({ source = "CONTACT_PAGE", serviceSlug, projectSlug,
     </form>
   );
 }
+
