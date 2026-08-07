@@ -1,18 +1,15 @@
 import { put, del } from "@vercel/blob";
 
-/** Uploads a File (from an admin form) to Vercel Blob storage and returns its
- * public URL.
- */
+/** Uploads a File (from an admin form) to Vercel Blob storage and returns its public URL. */
 export async function uploadMedia(
   file: File,
   folder: "projects" | "services" | "gallery"
 ) {
-
   if (!process.env.BLOB_READ_WRITE_TOKEN) {
-  throw new Error(
-    `TOKEN VALUE = ${process.env.BLOB_READ_WRITE_TOKEN}`
-  );
-}
+    throw new Error(
+      `TOKEN VALUE = ${process.env.BLOB_READ_WRITE_TOKEN}`
+    );
+  }
 
   const filename = `${folder}/${Date.now()}-${file.name.replace(/\s+/g, "-")}`;
 
@@ -31,4 +28,4 @@ export async function deleteMedia(url: string) {
   } catch (err) {
     console.error("Failed to delete blob:", err);
   }
-} Curently Jamaica, delete knick to charge, or smart sense
+}
