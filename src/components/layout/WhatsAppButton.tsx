@@ -12,10 +12,10 @@ export function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"
-      initial={{ scale: 0, opacity: 0 }}
+      initial={{ scale: 1, opacity: 1 }}
       animate={{ scale: 1, opacity: 1 }}
-      transition={{ delay: 1.2, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ scale: 1.08 }}
+      transition={{ duration: 0.2 }}
+      whileHover={{ scale: 1.06 }}
       className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-lg shadow-black/20"
     >
       <svg viewBox="0 0 24 24" fill="currentColor" className="h-7 w-7">

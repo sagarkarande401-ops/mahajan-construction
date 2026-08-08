@@ -27,11 +27,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </Link>
           ))}
         </nav>
-        <div className="absolute bottom-6 px-6">
+        <div className="absolute bottom-6 w-full px-6">
           <LogoutButton />
         </div>
       </aside>
-      <main className="flex-1 overflow-x-hidden">{children}</main>
+      <main className="flex-1 overflow-x-hidden -mt-20">
+        {/* Mobile admin header: shows logout on small screens and removes empty top space caused by global layout pt-20 */}
+        <div className="md:hidden flex items-center justify-end p-4 border-b border-line dark:border-line-dark">
+          <LogoutButton />
+        </div>
+        {children}
+      </main>
     </div>
   );
 }

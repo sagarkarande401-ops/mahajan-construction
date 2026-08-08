@@ -50,20 +50,20 @@ export async function submitEnquiry(raw: unknown): Promise<SubmitEnquiryResult> 
 
   // Send emails (owner notification + customer confirmation) using Resend if configured.
   // Failures are logged but do not block the HTTP response.
-  try {
-    await sendEnquiryEmails({
-      name: data.name,
-      phone: data.phone,
-      email: data.email,
-      projectType: data.projectType,
-      budget: data.budget,
-      location: data.location,
-      message: data.message,
-      source: data.source,
-    });
-  } catch (err) {
-    console.error('Failed to send enquiry emails:', err);
-  }
+  // Send emails in the background so the user doesn't wait for external API calls.
+  // Use fire-and-forget with a catch to log errors but not block the response.
+  sendEnquiryEmails({
+    name: data.name,
+    phone: data.phone,
+    email: data.email,
+    projectType: data.projectType,
+    budget: data.budget,
+    location: data.location,
+    message: data.message,
+    source: data.source,
+  }).catch((err) => {
+    console.error('Failed to send enquiry emails (background):', err);
+  });
 
   const whatsappMessage = `Hi Mahajan Construction, I just submitted an enquiry.\n\nName: ${data.name}\nProject Type: ${data.projectType || "-"}\nLocation: ${data.location || "-"}\nMessage: ${data.message}`;
 
