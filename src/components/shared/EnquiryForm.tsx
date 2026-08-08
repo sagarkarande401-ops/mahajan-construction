@@ -40,19 +40,37 @@ export function EnquiryForm({ source = "CONTACT_PAGE", serviceSlug, projectSlug,
       projectSlug,
     };
 
-    setStatus("loading");
-    setErrors({});
-    const result = await submitEnquiry(payload);
-
-    if (!result.success) {
-      setErrors(result.fieldErrors as Record<string, string> || {});
+    // Basic client-side validation to provide faster feedback
+    const clientErrors: Record<string, string> = {};
+    if (!payload.name) clientErrors.name = "Please enter your name.";
+    if (!payload.phone) clientErrors.phone = "Please enter your phone number.";
+    if (!payload.email) clientErrors.email = "Please enter your email address.";
+    if (Object.keys(clientErrors).length > 0) {
+      setErrors(clientErrors);
       setStatus("error");
       return;
     }
 
-    setWhatsappMessage(result.whatsappMessage || "");
-    setStatus("success");
-    form.reset();
+    setStatus("loading");
+    setErrors({});
+
+    try {
+      const result = await submitEnquiry(payload);
+
+      if (!result || !result.success) {
+        setErrors(result?.fieldErrors as Record<string, string> || {});
+        setStatus("error");
+        return;
+      }
+
+      setWhatsappMessage(result.whatsappMessage || "");
+      setStatus("success");
+      form.reset();
+    } catch (err) {
+      console.error('submitEnquiry failed:', err);
+      setStatus("error");
+      setErrors({ _form: "Failed to submit enquiry. Please try again or contact us directly." });
+    }
   };
 
   if (status === "success") {

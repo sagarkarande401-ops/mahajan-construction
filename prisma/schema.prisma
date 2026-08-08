@@ -25,7 +25,9 @@ model AdminUser {
 
 enum EnquiryStatus {
   PENDING
+  NEW
   CONTACTED
+  SITE_VISIT_SCHEDULED
   QUOTATION_SENT
   WON
   LOST
@@ -50,12 +52,16 @@ model Enquiry {
   // If the enquiry came from a specific service or project page keep a reference
   serviceSlug String?
   projectSlug String?
-  status      EnquiryStatus @default(PENDING)
+  status      EnquiryStatus @default(NEW)
+  notes       String?
+  followUpDate DateTime?
+  assignedTo  String?
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 
   @@index([status])
   @@index([createdAt])
+  @@index([followUpDate])
 }
 
 // ==================== SERVICES ====================

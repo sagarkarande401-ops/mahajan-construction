@@ -41,11 +41,27 @@ export async function submitEnquiry(raw: unknown): Promise<SubmitEnquiryResult> 
         source: dbSource,
         serviceSlug: data.serviceSlug,
         projectSlug: data.projectSlug,
+        // explicitly set a safe status that exists on older DBs to avoid enum default mismatches
+        status: "PENDING",
       },
     });
-  } catch (err) {
-    console.error("Failed to save enquiry:", err);
-    return { success: false, error: "Something went wrong saving your enquiry. Please try again or contact us directly." };
+  } catch (err: any) {
+    console.error("Failed to save enquiry via Prisma create:", err);
+    // If the DB schema hasn't been migrated yet (new columns/enum missing), fall back to a raw SQL insert
+    if (err && err.code === 'P2022') {
+      try {
+        // Use a JS-generated id so we don't rely on DB defaults
+        const id = (globalThis as any).crypto?.randomUUID ? (globalThis as any).crypto.randomUUID() : `${Date.now()}-${Math.floor(Math.random()*100000)}`;
+        await prisma.$executeRaw`
+          INSERT INTO "Enquiry" ("id","name","phone","email","projectType","budget","location","message","source","serviceSlug","projectSlug","status","createdAt","updatedAt")
+          VALUES (${id}, ${data.name}, ${data.phone}, ${data.email}, ${data.projectType}, ${data.budget}, ${data.location}, ${data.message}, ${dbSource}::"EnquirySource", ${data.serviceSlug}, ${data.projectSlug}, ${'PENDING'}::"EnquiryStatus", now(), now())`;
+      } catch (rawErr) {
+        console.error('Failed to save enquiry via raw SQL fallback:', rawErr);
+        return { success: false, error: 'Something went wrong saving your enquiry. Please try again or contact us directly.' };
+      }
+    } else {
+      return { success: false, error: "Something went wrong saving your enquiry. Please try again or contact us directly." };
+    }
   }
 
   // Send emails (owner notification + customer confirmation) using Resend if configured.

@@ -3,21 +3,59 @@ import { prisma } from "@/lib/prisma";
 import { Inbox, Briefcase, Layers, Star } from "lucide-react";
 
 export default async function AdminDashboardPage() {
-  const [totalEnquiries, pendingEnquiries, totalProjects, totalServices, totalTestimonials, recentEnquiries] = await Promise.all([
-    prisma.enquiry.count(),
-    prisma.enquiry.count({ where: { status: "PENDING" } }),
-    prisma.project.count(),
-    prisma.service.count(),
-    prisma.testimonial.count(),
-    prisma.enquiry.findMany({ orderBy: { createdAt: "desc" }, take: 5 }),
+  const now = new Date();
+  const totalLeadsPromise = prisma.enquiry.count();
+  const newLeadsPromise = (async () => {
+    try {
+      return await prisma.enquiry.count({ where: { OR: [{ status: 'NEW' }, { status: 'PENDING' }] } });
+    } catch (err: any) {
+      // If DB enum doesn't include NEW yet, fall back to counting PENDING only
+      if (err && (err.code === 'P2022' || err.message?.includes('invalid input value for enum'))) {
+        return await prisma.enquiry.count({ where: { status: 'PENDING' } });
+      }
+      throw err;
+    }
+  })();
+  // followUpDate may not exist in the DB yet (migration not applied). Attempt count and fallback to 0 on known Prisma error.
+  const pendingFollowUpsPromise = (async () => {
+    try {
+      return await prisma.enquiry.count({ where: { followUpDate: { not: null, lte: now } } });
+    } catch (err: any) {
+      // If the column doesn't exist yet, return 0 so build doesn't fail.
+      if (err && err.code === 'P2022') return 0;
+      throw err;
+    }
+  })();
+  const totalProjectsPromise = prisma.project.count();
+  const totalServicesPromise = prisma.service.count();
+  const totalTestimonialsPromise = prisma.testimonial.count();
+  const recentLeadsPromise = (async () => {
+    try {
+      return await prisma.enquiry.findMany({ orderBy: { createdAt: "desc" }, take: 5 });
+    } catch (err: any) {
+      if (err && err.code === 'P2022') {
+        return await prisma.enquiry.findMany({ select: { id: true, name: true, createdAt: true, projectType: true, status: true }, orderBy: { createdAt: 'desc' }, take: 5 });
+      }
+      throw err;
+    }
+  })();
+
+  const [totalLeads, newLeads, pendingFollowUps, totalProjects, totalServices, totalTestimonials, recentLeads] = await Promise.all([
+    totalLeadsPromise,
+    newLeadsPromise,
+    pendingFollowUpsPromise,
+    totalProjectsPromise,
+    totalServicesPromise,
+    totalTestimonialsPromise,
+    recentLeadsPromise,
   ]);
 
   const cards = [
-    { label: "Total Enquiries", value: totalEnquiries, icon: Inbox, href: "/admin/enquiries" },
-    { label: "Pending Follow-up", value: pendingEnquiries, icon: Inbox, href: "/admin/enquiries?status=PENDING" },
+    { label: "Total Leads", value: totalLeads, icon: Inbox, href: "/admin/enquiries" },
+    { label: "New Leads", value: newLeads, icon: Inbox, href: "/admin/enquiries?status=NEW" },
+    { label: "Pending Follow-ups", value: pendingFollowUps, icon: Inbox, href: "/admin/enquiries?filter=followups" },
     { label: "Published Projects", value: totalProjects, icon: Briefcase, href: "/admin/projects" },
     { label: "Active Services", value: totalServices, icon: Layers, href: "/admin/services" },
-    { label: "Testimonials", value: totalTestimonials, icon: Star, href: "/admin/testimonials" },
   ];
 
   return (
@@ -51,7 +89,7 @@ export default async function AdminDashboardPage() {
               </tr>
             </thead>
             <tbody>
-              {recentEnquiries.map((e) => (
+              {recentLeads.map((e) => (
                 <tr key={e.id} className="border-b border-line dark:border-line-dark">
                   <td className="py-3 pr-4 text-concrete">{new Date(e.createdAt).toLocaleDateString("en-IN", { day: "2-digit", month: "short" })}</td>
                   <td className="py-3 pr-4 text-ink dark:text-canvas">{e.name}</td>
@@ -59,7 +97,7 @@ export default async function AdminDashboardPage() {
                   <td className="py-3 pr-4 text-concrete">{e.status}</td>
                 </tr>
               ))}
-              {recentEnquiries.length === 0 && (
+              {recentLeads.length === 0 && (
                 <tr><td colSpan={4} className="py-6 text-concrete">No enquiries yet.</td></tr>
               )}
             </tbody>
