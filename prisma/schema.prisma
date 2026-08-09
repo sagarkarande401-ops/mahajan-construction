@@ -1,17 +1,12 @@
-// Mahajan Construction — Database Schema
-// Run `npm run db:push` after setting DATABASE_URL to create these tables.
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-   directUrl = env("DIRECT_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
-
-// ==================== ADMIN AUTH ====================
 
 model AdminUser {
   id           String   @id @default(cuid())
@@ -21,7 +16,183 @@ model AdminUser {
   createdAt    DateTime @default(now())
 }
 
-// ==================== ENQUIRIES (Leads / Contact form) ====================
+model Enquiry {
+  id           String        @id @default(cuid())
+  name         String
+  phone        String
+  email        String
+  projectType  String?
+  budget       String?
+  location     String?
+  notes        String?
+  followUpDate DateTime?
+  assignedTo   String?
+  message      String
+  source       EnquirySource @default(CONTACT_PAGE)
+  serviceSlug  String?
+  projectSlug  String?
+  status       EnquiryStatus @default(PENDING)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  // Relation to quotations (admin-only module)
+  quotations Quotation[]
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+model Service {
+  id               String               @id @default(cuid())
+  slug             String               @unique
+  name             String
+  shortDescription String
+  description      String
+  icon             String               @default("compass")
+  coverImage       String?
+  order            Int                  @default(0)
+  published        Boolean              @default(true)
+  features         String[]
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+  faqs             ServiceFaq[]
+  images           ServiceImage[]
+  processSteps     ServiceProcessStep[]
+}
+
+model ServiceProcessStep {
+  id          String  @id @default(cuid())
+  serviceId   String
+  order       Int
+  title       String
+  description String
+  service     Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+}
+
+model ServiceFaq {
+  id        String  @id @default(cuid())
+  serviceId String
+  order     Int     @default(0)
+  question  String
+  answer    String
+  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+}
+
+model ServiceImage {
+  id        String  @id @default(cuid())
+  serviceId String
+  url       String
+  order     Int     @default(0)
+  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+}
+
+model Project {
+  id               String                @id @default(cuid())
+  slug             String                @unique
+  name             String
+  category         ProjectCategory
+  projectType      String
+  client           String?
+  location         String
+  area             String
+  timeline         String
+  year             String
+  status           ProjectStatus         @default(COMPLETED)
+  coverImage       String?
+  description      String
+  challenges       String?
+  solutions        String?
+  materialsUsed    String[]              @default([])
+  highlights       String[]              @default([])
+  featured         Boolean               @default(false)
+  published        Boolean               @default(true)
+  order            Int                   @default(0)
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime              @updatedAt
+  beforeAfterPairs ProjectBeforeAfter[]
+  images           ProjectImage[]
+  timelineSteps    ProjectTimelineStep[]
+  videos           ProjectVideo[]
+
+  @@index([category])
+  @@index([featured])
+}
+
+model ProjectImage {
+  id        String  @id @default(cuid())
+  projectId String
+  url       String
+  order     Int     @default(0)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model ProjectVideo {
+  id        String  @id @default(cuid())
+  projectId String
+  url       String
+  title     String?
+  order     Int     @default(0)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model ProjectTimelineStep {
+  id          String  @id @default(cuid())
+  projectId   String
+  order       Int
+  label       String
+  date        String?
+  description String?
+  project     Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model ProjectBeforeAfter {
+  id        String  @id @default(cuid())
+  projectId String
+  beforeUrl String
+  afterUrl  String
+  order     Int     @default(0)
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model GalleryItem {
+  id        String           @id @default(cuid())
+  type      GalleryMediaType
+  url       String
+  title     String?
+  category  String?
+  order     Int              @default(0)
+  createdAt DateTime         @default(now())
+}
+
+model Testimonial {
+  id          String   @id @default(cuid())
+  name        String
+  role        String
+  location    String
+  quote       String
+  rating      Int      @default(5)
+  projectSlug String?
+  published   Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model Faq {
+  id        String  @id @default(cuid())
+  category  String
+  question  String
+  answer    String
+  order     Int     @default(0)
+  published Boolean @default(true)
+}
+
+model SiteStat {
+  id     String @id @default(cuid())
+  key    String @unique
+  label  String
+  value  Int
+  suffix String @default("")
+}
 
 enum EnquiryStatus {
   PENDING
@@ -39,79 +210,6 @@ enum EnquirySource {
   PROJECT_PAGE
 }
 
-model Enquiry {
-  id          String        @id @default(cuid())
-  name        String
-  phone       String
-  email       String
-  projectType String?
-  budget      String?
-  location    String?
-  message     String
-  source      EnquirySource @default(CONTACT_PAGE)
-  // If the enquiry came from a specific service or project page keep a reference
-  serviceSlug String?
-  projectSlug String?
-  status      EnquiryStatus @default(NEW)
-  notes       String?
-  followUpDate DateTime?
-  assignedTo  String?
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-
-  @@index([status])
-  @@index([createdAt])
-  @@index([followUpDate])
-}
-
-// ==================== SERVICES ====================
-
-model Service {
-  id               String   @id @default(cuid())
-  slug             String   @unique
-  name             String
-  shortDescription String
-  description      String   @db.Text
-  icon             String   @default("compass")
-  coverImage       String?
-  order            Int      @default(0)
-  published        Boolean  @default(true)
-  features         String[] // scope bullet points
-  processSteps     ServiceProcessStep[]
-  faqs             ServiceFaq[]
-  images           ServiceImage[]
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-}
-
-model ServiceProcessStep {
-  id        String  @id @default(cuid())
-  serviceId String
-  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
-  order     Int
-  title     String
-  description String @db.Text
-}
-
-model ServiceFaq {
-  id        String  @id @default(cuid())
-  serviceId String
-  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
-  order     Int     @default(0)
-  question  String
-  answer    String  @db.Text
-}
-
-model ServiceImage {
-  id        String  @id @default(cuid())
-  serviceId String
-  service   Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
-  url       String
-  order     Int     @default(0)
-}
-
-// ==================== PROJECTS ====================
-
 enum ProjectCategory {
   RESIDENTIAL
   COMMERCIAL
@@ -124,123 +222,50 @@ enum ProjectStatus {
   ONGOING
 }
 
-model Project {
-  id               String          @id @default(cuid())
-  slug             String          @unique
-  name             String
-  category         ProjectCategory
-  projectType      String          // e.g. "Private Bungalow", "Farmhouse", "Villa Community"
-  client           String?         // client name or "Confidential" — shown on detail page
-  location         String
-  area             String
-  timeline         String          // e.g. "11 months"
-  year             String
-  status           ProjectStatus   @default(COMPLETED)
-  coverImage       String?
-  description      String          @db.Text
-  challenges       String?         @db.Text
-  solutions        String?         @db.Text
-  materialsUsed    String[]        @default([])
-  highlights       String[]        @default([])
-  featured         Boolean         @default(false)
-  published        Boolean         @default(true)
-  order            Int             @default(0)
-  images           ProjectImage[]
-  videos           ProjectVideo[]
-  timelineSteps    ProjectTimelineStep[]
-  beforeAfterPairs ProjectBeforeAfter[]
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
-
-  @@index([category])
-  @@index([featured])
-}
-
-model ProjectImage {
-  id        String  @id @default(cuid())
-  projectId String
-  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  url       String
-  order     Int     @default(0)
-}
-
-model ProjectVideo {
-  id        String  @id @default(cuid())
-  projectId String
-  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  url       String  // YouTube/Vimeo embed URL or direct video file URL from blob storage
-  title     String?
-  order     Int     @default(0)
-}
-
-model ProjectTimelineStep {
-  id        String  @id @default(cuid())
-  projectId String
-  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  order     Int
-  label     String  // e.g. "Foundation", "Structure", "Interiors", "Handover"
-  date      String? // e.g. "Jan 2025"
-  description String? @db.Text
-}
-
-model ProjectBeforeAfter {
-  id         String  @id @default(cuid())
-  projectId  String
-  project    Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  beforeUrl  String
-  afterUrl   String
-  order      Int     @default(0)
-}
-
-// ==================== GALLERY (standalone photos/videos not tied to a project) ====================
-
 enum GalleryMediaType {
   PHOTO
   VIDEO
 }
 
-model GalleryItem {
-  id        String           @id @default(cuid())
-  type      GalleryMediaType
-  url       String
-  title     String?
-  category  String?          // e.g. "Residential", "Commercial", "Site Visit"
-  order     Int              @default(0)
-  createdAt DateTime         @default(now())
+enum QuotationStatus {
+  DRAFT
+  SENT
+  APPROVED
+  REJECTED
 }
 
-// ==================== TESTIMONIALS ====================
+model Quotation {
+  id              String          @id @default(cuid())
+  enquiryId       String
+  quotationNumber String          @unique
+  clientName      String
+  projectType     String?
+  location        String?
+  validUntil      DateTime?
+  subtotal        Float           @default(0)
+  discount        Float           @default(0)
+  gst             Float           @default(0)
+  total           Float           @default(0)
+  notes           String?
+  status          QuotationStatus @default(DRAFT)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
 
-model Testimonial {
-  id          String   @id @default(cuid())
-  name        String
-  role        String
-  location    String
-  quote       String   @db.Text
-  rating      Int      @default(5)
-  projectSlug String?
-  published   Boolean  @default(true)
-  order       Int      @default(0)
-  createdAt   DateTime @default(now())
+  enquiry Enquiry         @relation(fields: [enquiryId], references: [id], onDelete: Cascade)
+  items   QuotationItem[]
+
+  @@index([quotationNumber])
+  @@index([status])
 }
 
-// ==================== FAQ (general site FAQ — separate from per-service FAQ) ====================
+model QuotationItem {
+  id          String  @id @default(cuid())
+  quotationId String
+  description String
+  quantity    Float   @default(1)
+  unit        String?
+  rate        Float   @default(0)
+  amount      Float   @default(0)
 
-model Faq {
-  id        String   @id @default(cuid())
-  category  String
-  question  String
-  answer    String   @db.Text
-  order     Int      @default(0)
-  published Boolean  @default(true)
-}
-
-// ==================== SITE SETTINGS (stats shown on Home/About) ====================
-
-model SiteStat {
-  id    String @id @default(cuid())
-  key   String @unique // "experience_years" | "projects_delivered" | "cities_served"
-  label String
-  value Int
-  suffix String @default("")
+  quotation Quotation @relation(fields: [quotationId], references: [id], onDelete: Cascade)
 }

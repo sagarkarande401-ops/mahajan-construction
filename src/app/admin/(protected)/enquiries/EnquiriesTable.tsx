@@ -1,9 +1,10 @@
 ﻿"use client";
 
+import Link from "next/link";
 import { useState, useMemo } from "react";
 import { Search, Download, Trash2 } from "lucide-react";
 import { Enquiry, EnquiryStatus } from "@prisma/client";
-import { updateEnquiryStatus, deleteEnquiry, updateEnquiryDetails } from "@/app/actions/admin-enquiries";
+import { updateEnquiryStatus, deleteEnquiry } from "@/app/actions/admin-enquiries";
 import { cn } from "@/lib/utils";
 
 const statuses: EnquiryStatus[] = ["PENDING", "NEW", "CONTACTED", "SITE_VISIT_SCHEDULED", "QUOTATION_SENT", "WON", "LOST"];
@@ -24,7 +25,6 @@ export function EnquiriesTable({ initialEnquiries }: { initialEnquiries: Enquiry
   const [serviceFilter, setServiceFilter] = useState<string>("ALL");
   const [sortOrder, setSortOrder] = useState<'NEWEST'|'OLDEST'>('NEWEST');
   const [deletingId, setDeletingId] = useState<string | null>(null);
-  const [selected, setSelected] = useState<Enquiry | null>(null);
 
   const services = useMemo(() => {
     const set = new Set<string>();
@@ -125,7 +125,11 @@ export function EnquiriesTable({ initialEnquiries }: { initialEnquiries: Enquiry
             {filtered.map((e) => (
               <tr key={e.id} className="border-b border-line align-top dark:border-line-dark">
                 <td className="py-4 pr-4 text-concrete">{new Date(e.createdAt).toLocaleDateString("en-IN", { day: "2-digit", month: "short" })}</td>
-                <td className="py-4 pr-4 font-medium text-ink dark:text-canvas"><button onClick={() => setSelected(e)} className="text-left">{e.name}</button></td>
+                <td className="py-4 pr-4 font-medium text-ink dark:text-canvas">
+                  <Link href={`/admin/enquiries/${e.id}`} className="text-left hover:text-ink hover:underline">
+                    {e.name}
+                  </Link>
+                </td>
                 <td className="py-4 pr-4 text-concrete">
                   <div>{e.phone}</div>
                   <div className="text-xs">{e.email}</div>
@@ -144,13 +148,13 @@ export function EnquiriesTable({ initialEnquiries }: { initialEnquiries: Enquiry
                 </td>
                 <td className="py-4 pr-4">
                   <div className="flex items-center gap-3">
-                    <button
-                      onClick={() => setSelected(e)}
+                    <Link
+                      href={`/admin/enquiries/${e.id}`}
                       aria-label="View details"
                       className="text-concrete hover:text-ink"
                     >
                       View
-                    </button>
+                    </Link>
                     <button
                       onClick={() => handleDelete(e.id)}
                       disabled={deletingId === e.id}
@@ -167,96 +171,6 @@ export function EnquiriesTable({ initialEnquiries }: { initialEnquiries: Enquiry
         </table>
         {filtered.length === 0 && <p className="mt-10 text-concrete">No enquiries match your search/filter.</p>}
       </div>
-
-      {/* Slide-over details panel */}
-      {selected && (
-        <div className="fixed inset-0 z-50 flex items-start justify-end bg-black/30">
-          <div className="w-full max-w-3xl bg-canvas p-6 dark:bg-canvas-dark">
-            <div className="flex items-start justify-between">
-              <h2 className="font-display text-2xl">Lead Details</h2>
-              <button onClick={() => setSelected(null)} className="text-concrete">Close</button>
-            </div>
-
-            <div className="mt-6">
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                <div>
-                  <h3 className="font-display text-lg">Customer Information</h3>
-                  <p className="mt-2 text-sm text-concrete">{selected.name}</p>
-                  <p className="mt-1 text-sm text-concrete">{selected.phone}</p>
-                  <p className="mt-1 text-sm text-concrete">{selected.email}</p>
-                </div>
-                <div>
-                  <h3 className="font-display text-lg">Service Required</h3>
-                  <p className="mt-2 text-sm text-concrete">{selected.projectType || selected.serviceSlug || '—'}</p>
-                  <h3 className="mt-4 font-display text-lg">Message</h3>
-                  <p className="mt-2 text-sm text-concrete whitespace-pre-line">{selected.message}</p>
-                </div>
-              </div>
-
-              <div className="mt-8 space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-ink">Status</label>
-                  <select value={selected.status} onChange={(e) => { const s = e.target.value as EnquiryStatus; setEnquiries(prev => prev.map(en => en.id === selected.id ? { ...en, status: s } : en)); updateEnquiryStatus(selected.id, s); setSelected({...selected, status: s} as Enquiry);} } className="mt-2 w-full border border-line bg-transparent px-3 py-2 text-sm">
-                    <option value="PENDING">New</option>
-                    <option value="NEW">New (explicit)</option>
-                    <option value="CONTACTED">Contacted</option>
-                    <option value="SITE_VISIT_SCHEDULED">Site Visit Scheduled</option>
-                    <option value="QUOTATION_SENT">Quotation Sent</option>
-                    <option value="WON">Won</option>
-                    <option value="LOST">Lost</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-ink">Notes</label>
-                  <textarea value={selected.notes || ''} onChange={(e) => setSelected({...selected, notes: e.target.value} as Enquiry)} className="mt-2 w-full border border-line bg-transparent px-3 py-2 text-sm" rows={6} />
-                </div>
-
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                  <div>
-                    <label className="block text-sm font-medium text-ink">Follow-up Date</label>
-                    <input type="date" value={selected.followUpDate ? new Date(selected.followUpDate).toISOString().slice(0,10) : ''} onChange={(e) => setSelected({...selected, followUpDate: e.target.value ? new Date(e.target.value).toISOString() : null} as Enquiry)} className="mt-2 w-full border border-line bg-transparent px-3 py-2 text-sm" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-ink">Assigned To</label>
-                    <input value={selected.assignedTo || ''} onChange={(e) => setSelected({...selected, assignedTo: e.target.value} as Enquiry)} className="mt-2 w-full border border-line bg-transparent px-3 py-2 text-sm" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-ink">Budget</label>
-                    <input value={selected.budget || ''} onChange={(e) => setSelected({...selected, budget: e.target.value} as Enquiry)} className="mt-2 w-full border border-line bg-transparent px-3 py-2 text-sm" />
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <button onClick={async () => {
-                    // Save changes
-                    const payload = {
-                      status: selected.status as EnquiryStatus,
-                      notes: selected.notes || null,
-                      followUpDate: selected.followUpDate ? (typeof selected.followUpDate === 'string' ? selected.followUpDate : new Date(selected.followUpDate).toISOString()) : null,
-                      assignedTo: selected.assignedTo || null,
-                      budget: selected.budget || null,
-                      location: selected.location || null,
-                    };
-                    try {
-                      await updateEnquiryDetails(selected.id, payload as any);
-                      // update list
-                      setEnquiries(prev => prev.map(en => en.id === selected.id ? { ...en, ...payload } as Enquiry : en));
-                      setSelected(prev => prev ? ({ ...prev, ...payload } as Enquiry) : prev);
-                      alert('Saved');
-                    } catch (err) {
-                      console.error(err);
-                      alert('Failed to save');
-                    }
-                  }} className="h-10 rounded bg-ink px-4 text-sm text-canvas">Save</button>
-
-                  <button onClick={() => setSelected(null)} className="h-10 rounded border px-4 text-sm">Close</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
     </div>
   );

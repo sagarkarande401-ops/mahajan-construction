@@ -23,12 +23,11 @@ export async function submitEnquiry(raw: unknown): Promise<SubmitEnquiryResult> 
   }
 
   const data = parsed.data;
+  // Map BOOK_CONSULTATION to an existing DB enum value so Prisma type checks and the DB stay compatible.
+  const dbSource: "CONTACT_PAGE" | "SERVICE_PAGE" | "PROJECT_PAGE" =
+    data.source === "BOOK_CONSULTATION" ? "CONTACT_PAGE" : (data.source as "CONTACT_PAGE" | "SERVICE_PAGE" | "PROJECT_PAGE");
 
   try {
-    // Map BOOK_CONSULTATION to an existing DB enum value so Prisma type checks and the DB stay compatible.
-    const dbSource: "CONTACT_PAGE" | "SERVICE_PAGE" | "PROJECT_PAGE" =
-      data.source === "BOOK_CONSULTATION" ? "CONTACT_PAGE" : (data.source as "CONTACT_PAGE" | "SERVICE_PAGE" | "PROJECT_PAGE");
-
     await prisma.enquiry.create({
       data: {
         name: data.name,

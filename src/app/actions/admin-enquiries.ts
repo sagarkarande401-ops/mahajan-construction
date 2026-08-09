@@ -28,6 +28,7 @@ export async function updateEnquiryDetails(id: string, payload: {
 
   await prisma.enquiry.update({ where: { id }, data });
   revalidatePath("/admin/enquiries");
+  revalidatePath(`/admin/enquiries/${id}`);
   revalidatePath("/admin/dashboard");
 }
 
