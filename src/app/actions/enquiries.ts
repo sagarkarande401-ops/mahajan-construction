@@ -3,7 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { enquirySchema, EnquiryInput } from "@/lib/validation";
 import { sendEnquiryEmails } from "@/lib/email";
-
+import { revalidatePath } from "next/cache";
 export interface SubmitEnquiryResult {
   success: boolean;
   error?: string;
@@ -23,12 +23,18 @@ export async function submitEnquiry(raw: unknown): Promise<SubmitEnquiryResult> 
   }
 
   const data = parsed.data;
-  // Map BOOK_CONSULTATION to an existing DB enum value so Prisma type checks and the DB stay compatible.
-  const dbSource: "CONTACT_PAGE" | "SERVICE_PAGE" | "PROJECT_PAGE" =
-    data.source === "BOOK_CONSULTATION" ? "CONTACT_PAGE" : (data.source as "CONTACT_PAGE" | "SERVICE_PAGE" | "PROJECT_PAGE");
 
-  try {
-    await prisma.enquiry.create({
+const dbSource: "CONTACT_PAGE" | "SERVICE_PAGE" | "PROJECT_PAGE" =
+  data.source === "BOOK_CONSULTATION"
+    ? "CONTACT_PAGE"
+    : (data.source as
+        | "CONTACT_PAGE"
+        | "SERVICE_PAGE"
+        | "PROJECT_PAGE");
+
+try {
+  await prisma.enquiry.create({
+    
       data: {
         name: data.name,
         phone: data.phone,
@@ -81,6 +87,9 @@ export async function submitEnquiry(raw: unknown): Promise<SubmitEnquiryResult> 
   });
 
   const whatsappMessage = `Hi Mahajan Construction, I just submitted an enquiry.\n\nName: ${data.name}\nProject Type: ${data.projectType || "-"}\nLocation: ${data.location || "-"}\nMessage: ${data.message}`;
+  
+revalidatePath("/admin/enquiries");
+revalidatePath("/admin/dashboard");
 
   return { success: true, whatsappMessage };
 }

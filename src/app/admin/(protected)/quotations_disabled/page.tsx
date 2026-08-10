@@ -47,9 +47,13 @@ export default async function AdminQuotationsPage() {
                     <div className="flex items-center gap-3">
                       <Link href={`/admin/quotations/${q.id}`} className="text-concrete hover:text-ink">View</Link>
                       <Link href={`/admin/quotations/${q.id}/edit`} className="text-concrete hover:text-ink">Edit</Link>
-                      <form action={async (formData: FormData) => { /* placeholder for delete if needed */ }}>
-                        <button type="button" className="text-concrete">Delete</button>
-                      </form>
+                     <button
+  type="button"
+  disabled
+  className="text-concrete cursor-not-allowed opacity-50"
+>
+  Delete
+</button>
                     </div>
                   </td>
                 </tr>
