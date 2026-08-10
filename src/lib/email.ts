@@ -17,16 +17,25 @@ function getResend() {
   return new Resend(process.env.RESEND_API_KEY);
 }
 
-const fromAddress = () => process.env.RESEND_FROM_EMAIL || "Mahajan Construction <onboarding@resend.dev>";
+const fromAddress = () =>
+  process.env.RESEND_FROM_EMAIL ||
+  "Mahajan Construction <onboarding@resend.dev>";
 
-/** Sends both the owner notification and the customer confirmation. Silently
- *  no-ops (logs only) if RESEND_API_KEY isn't configured yet, so local dev
- *  and testing don't crash before email is set up. */
-export async function sendEnquiryEmails(data: EnquiryEmailData, resendClient?: any) {
+export async function sendEnquiryEmails(
+  data: EnquiryEmailData,
+  resendClient?: any
+) {
   const resend = resendClient ?? getResend();
+
   if (!resend) {
-    console.warn("RESEND_API_KEY not set — skipping email send for enquiry from", data.email);
-    return { ownerSent: false, customerSent: false };
+    console.warn(
+      "RESEND_API_KEY not set - skipping email send for enquiry from",
+      data.email
+    );
+    return {
+      ownerSent: false,
+      customerSent: false,
+    };
   }
 
   const detailsBlock = [
@@ -40,11 +49,21 @@ export async function sendEnquiryEmails(data: EnquiryEmailData, resendClient?: a
     "",
     "Message:",
     data.message,
-  ].filter(Boolean).join("\n");
+  ]
+    .filter(Boolean)
+    .join("\n");
 
   let ownerSent = false;
   let customerSent = false;
   const errors: any[] = [];
+
+  // ---------------- DEBUG ----------------
+  console.log("=================================");
+  console.log("OWNER EMAIL:", siteConfig.email);
+  console.log("FROM EMAIL:", fromAddress());
+  console.log("CUSTOMER EMAIL:", data.email);
+  console.log("=================================");
+  // ---------------------------------------
 
   try {
     const ownerResult = await resend.emails.send({
@@ -53,16 +72,16 @@ export async function sendEnquiryEmails(data: EnquiryEmailData, resendClient?: a
       subject: `New Enquiry — ${data.name}`,
       text: detailsBlock,
     });
-    // Resend SDK has a typed response shape; cast to any to check common success fields
-    const _owner = ownerResult as any;
-    if (_owner && (_owner.id || _owner.messageId || _owner.status || _owner.data?.id || _owner.data?.messageId || _owner.data?.status)) {
-      ownerSent = true;
-    } else {
-      ownerSent = true; // assume success if no error thrown — Resend throws on failure
-    }
+
+    console.log("OWNER RESULT:", ownerResult);
+
+    ownerSent = true;
   } catch (err) {
-    console.error('Resend owner email failed:', err);
-    errors.push({ channel: 'owner', err });
+    console.error("Resend owner email failed:", err);
+    errors.push({
+      channel: "owner",
+      err,
+    });
   }
 
   try {
@@ -73,21 +92,29 @@ export async function sendEnquiryEmails(data: EnquiryEmailData, resendClient?: a
       text:
         `Hi ${data.name},\n\n` +
         `Thank you for contacting us.\n\n` +
-        `We have successfully received your enquiry:\n\n${detailsBlock}\n\n` +
+        `We have successfully received your enquiry:\n\n` +
+        `${detailsBlock}\n\n` +
         `Our team will contact you within 24 hours.\n\n` +
-        `Regards,\nSaish Mahajan\nMahajan Construction\n${siteConfig.phoneDisplay}`,
+        `Regards,\n` +
+        `Saish Mahajan\n` +
+        `Mahajan Construction\n` +
+        `${siteConfig.phoneDisplay}`,
     });
-    const _cust = customerResult as any;
-    if (_cust && (_cust.id || _cust.messageId || _cust.status || _cust.data?.id || _cust.data?.messageId || _cust.data?.status)) {
-      customerSent = true;
-    } else {
-      customerSent = true; // assume success if no error thrown
-    }
+
+    console.log("CUSTOMER RESULT:", customerResult);
+
+    customerSent = true;
   } catch (err) {
-    console.error('Resend customer email failed:', err);
-    errors.push({ channel: 'customer', err });
+    console.error("Resend customer email failed:", err);
+    errors.push({
+      channel: "customer",
+      err,
+    });
   }
 
-  return { ownerSent, customerSent, errors };
+  return {
+    ownerSent,
+    customerSent,
+    errors,
+  };
 }
-
