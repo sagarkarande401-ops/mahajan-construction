@@ -12,7 +12,7 @@ export default async function TestimonialsPage() {
   const testimonials = await getTestimonials();
 
   return (
-    <section className="container-px mx-auto pb-24 pt-40 md:pb-32">
+   <section className="container-px mx-auto pb-24 pt-16 md:pb-32 md:pt-20">
       <span className="eyebrow">Testimonials</span>
       <h1 className="mt-6 max-w-3xl text-balance text-display-1 font-display font-normal text-ink dark:text-canvas">
         Said after the keys changed hands.

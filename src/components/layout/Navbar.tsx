@@ -79,7 +79,7 @@ export function Navbar() {
     <>
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-luxury",
+         "fixed inset-x-0 top-0 z-[100] transition-all duration-500 ease-luxury",
           scrolled ? "border-b border-line bg-canvas/80 backdrop-blur-md dark:border-line-dark dark:bg-canvas-dark/80" : "bg-transparent"
         )}
       >

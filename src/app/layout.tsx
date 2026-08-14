@@ -95,7 +95,7 @@ export default function RootLayout({
 
           <Navbar />
 
-          <main className="pt-20">{children}</main>
+          <main className="pt-[80px]">{children}</main>
 
           <Footer />
 
